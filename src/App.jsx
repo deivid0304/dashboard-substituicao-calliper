@@ -487,21 +487,19 @@ function App() {
                   Distribuição por Posição
                 </CardTitle>
                 <CardDescription className="text-gray-600">
-                  Quantidade de callipers substituídos por posição - Gradiente: 0 (vermelho) a 47 (verde)
+                  Quantidade de callipers substituídos por posição
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={500}>
                   <BarChart data={safePosicaoCallipers} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                     <XAxis
                       dataKey="Posicao"
                       tick={{ fontSize: 14, fontWeight: '600' }}
-                      label={{ value: 'Posição do Calliper', position: 'insideBottom', offset: -5 }}
                     />
                     <YAxis
-                      tick={{ fontSize: 12 }}
-                      domain={[0, 47]}
+                      tick={{ fontSize: 14 }}
                       label={{ value: 'Quantidade', angle: -90, position: 'insideLeft' }}
                     />
                     <Tooltip content={<CustomTooltipPosicoes />} />
@@ -509,75 +507,19 @@ function App() {
                       <LabelList
                         dataKey="Quantidade"
                         position="top"
-                        style={{ fontSize: '14px', fontWeight: '700', fill: '#374151' }}
+                        style={{ fontSize: '14px', fontWeight: '700', fill: '#320f0fff' }}
                       />
                       {safePosicaoCallipers.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
-                          fill={calcularCorHex(entry.Quantidade)}
-                          stroke={calcularCorHex(entry.Quantidade)}
-                          strokeWidth={2}
+                          fill="#48f63bff"
+                          stroke="#0f5053ff"
+                          strokeWidth={0}
                         />
                       ))}
                     </Bar>
-
-                    {/* Linha de referência para o máximo */}
-                    <ReferenceLine y={47} stroke="#62edb5ff" strokeDasharray="3 3" strokeWidth={2} />
                   </BarChart>
                 </ResponsiveContainer>
-
-                {/* Legenda do gradiente */}
-                <div className="flex items-center justify-center gap-6 mt-6 text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-red-500" />
-                    <span className="text-gray-700 font-medium">0 (Crítico)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-yellow-500" />
-                    <span className="text-gray-700 font-medium">23 (Moderado)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded bg-green-500" />
-                    <span className="text-gray-700 font-medium">47 (Ideal)</span>
-                  </div>
-                </div>
-
-                {/* Legenda interativa do gradiente */}
-                <div className="mt-8 p-6 bg-gradient-to-r from-red-50 via-yellow-50 to-green-50 rounded-2xl border border-gray-200/60">
-                  <h4 className="font-semibold text-gray-900 mb-4 text-center">Progresso das Substituições por Posição</h4>
-
-                  <div
-                    className="w-full h-6 rounded-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 relative mb-2"
-                    onMouseMove={(e) => {
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      const x = e.clientX - rect.left;
-                      const percent = (x / rect.width) * 100;
-                      const value = Math.round((percent / 100) * 47);
-                      setHoverValue(value);
-                    }}
-                    onMouseLeave={() => setHoverValue(null)}
-                  >
-                    {hoverValue !== null && (
-                      <div
-                        className="absolute top-0 h-6 bg-black/20 rounded-full"
-                        style={{ width: `${(hoverValue / 47) * 100}%` }}
-                      />
-                    )}
-
-                    {hoverValue !== null && (
-                      <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap shadow-lg">
-                        {hoverValue} callipers substituídos
-                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex justify-between text-sm text-gray-600 mt-2">
-                    <span className="font-medium text-red-600">0%</span>
-                    <span className="font-medium text-gray-700">Progresso de Substituição</span>
-                    <span className="font-medium text-green-600">100%</span>
-                  </div>
-                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -600,12 +542,12 @@ function App() {
                   <ResponsiveContainer width="100%" height={300}>
                     <AreaChart
                       data={safeSubstituicoesPorMes}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+                      margin={{ top: 50, right: 30, left: 20, bottom: 40 }}
                     >
                       <defs>
                         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                          <stop offset="5%" stopColor="#3bf699ff" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#122d2aff" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
@@ -620,12 +562,28 @@ function App() {
                       <Area
                         type="monotone"
                         dataKey="Total_Substituicoes"
-                        stroke="#3b82f6"
+                        stroke="#d7cdc1ff"
                         fill="url(#colorUv)"
                         strokeWidth={3}
-                        dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                        dot={{
+                          fill: '#3b82f6',
+                          strokeWidth: 2,
+                          r: 4
+                        }}
                         activeDot={{ r: 6, fill: '#1d4ed8' }}
-                      />
+                      >
+                        <LabelList
+                          dataKey="Total_Substituicoes"
+                          position="top"
+                          offset={15}
+                          fill="#000000"
+                          style={{
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            textShadow: '0px 0px 3px white'
+                          }}
+                        />
+                      </Area>
                     </AreaChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -641,9 +599,6 @@ function App() {
                   <CardDescription className="text-gray-600">
                     Distribuição entre O-Ring e Pastilhas
                     <br />
-                    <span className="font-semibold text-blue-600">
-                      Total: {safePercentualTipoSubstituicao.reduce((total, item) => total + getSafeNumber(item.Quantidade), 0)} intervenções
-                    </span>
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -660,10 +615,18 @@ function App() {
                         <LabelList
                           dataKey="Quantidade"
                           position="top"
+                          formatter={(value, entry) => {
+                            // Calcular porcentagem baseada no total de 235 callipers
+                            const percentual = ((value / 235) * 100).toFixed(1);
+                            return `${value} (${percentual}%)`;
+                          }}
                           style={{ fontSize: '12px', fontWeight: '600', fill: '#374151' }}
                         />
                         {safePercentualTipoSubstituicao.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color || '#6b7280'} />
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={entry.Tipo === "O-Ring" ? "#3bf6e6ff" : "#a262acff"}
+                          />
                         ))}
                       </Bar>
                     </BarChart>
