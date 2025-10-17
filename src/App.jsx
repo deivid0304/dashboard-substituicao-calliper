@@ -406,7 +406,7 @@ function App() {
                       <defs>
                         <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="0%" stopColor="#17934bff" stopOpacity={0.8} />
-                          <stop offset="100%" stopColor="#1dd8acff" stopOpacity={0.8} />
+                          <stop offset="100%" stopColor="#93d81dff" stopOpacity={0.8} />
                         </linearGradient>
                       </defs>
                     </BarChart>
@@ -450,8 +450,8 @@ function App() {
                             key={`cell-${index}`}
                             fill={
                               entry.Status === "By-passada" ? "#ff0000" :
-                                entry.Status === "Sem vazamento" ? "#7d6a6aff" :
-                                  entry.Status === "Reparos substituidos" ? "#17934bff" :
+                                entry.Status === "Sem vazamento" ? "#e4d076ff" :
+                                  entry.Status === "Reparos substituidos" ? "#51c830ff" :
                                     '#806d6bff'
                             }
                             stroke={entry.Status === "by-passado" ? "#dc2626" : undefined}
@@ -491,7 +491,7 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={400}>
+                <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={safePosicaoCallipers} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                     <XAxis
@@ -522,7 +522,7 @@ function App() {
                     </Bar>
 
                     {/* Linha de referência para o máximo */}
-                    <ReferenceLine y={47} stroke="#e0e5e3ff" strokeDasharray="3 3" strokeWidth={2} />
+                    <ReferenceLine y={47} stroke="#62edb5ff" strokeDasharray="3 3" strokeWidth={2} />
                   </BarChart>
                 </ResponsiveContainer>
 
@@ -692,7 +692,13 @@ function App() {
                         <div className="flex items-center gap-3">
                           <div
                             className="w-3 h-3 rounded-full"
-                            style={{ backgroundColor: status.color || '#6b7280' }}
+                            style={{
+                              backgroundColor:
+                                status.Status === "By-passada" ? "#ff0000" :
+                                  status.Status === "Sem vazamento" ? "#e1cf49ff" :
+                                    status.Status === "Reparos substituidos" ? "#24c324ff" :
+                                      status.color || '#6b7280'
+                            }}
                           />
                           <span className="text-sm font-medium text-gray-700">{status.Status}</span>
                         </div>
@@ -713,14 +719,14 @@ function App() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {getSafeNumber(dadosFiltrados.turbinasByPass) > 0 && (
-                      <div className="flex items-start gap-3 p-3 bg-red-50/50 border border-red-200 rounded-lg">
-                        <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                    {getSafeNumber(dadosFiltrados.callipersSubstituidos) > 0 && (
+                      <div className="flex items-start gap-3 p-3 bg-green-50/50 border border-green-200 rounded-lg">
+                        <Wrench className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                         <div>
-                          <p className="text-sm font-semibold text-red-800">
-                            {getSafeNumber(dadosFiltrados.turbinasByPass)} turbinas by-passadas
+                          <p className="text-sm font-semibold text-green-800">
+                            {getSafeNumber(dadosFiltrados.callipersSubstituidos)} Vedações substituídas
                           </p>
-                          <p className="text-xs text-red-600 mt-1">Intervenção urgente necessária</p>
+                          <p className="text-xs text-green-600 mt-1">Manutenção concluída</p>
                         </div>
                       </div>
                     )}
@@ -729,20 +735,20 @@ function App() {
                         <CheckCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
                         <div>
                           <p className="text-sm font-semibold text-yellow-800">
-                            {getSafeNumber(dadosFiltrados.turbinasSemVazamento)} turbinas sem vazamento
+                            {getSafeNumber(dadosFiltrados.turbinasSemVazamento)} Turbinas sem vazamento
                           </p>
-                          <p className="text-xs text-yellow-600 mt-1">Substituição programada</p>
+                          <p className="text-xs text-yellow-600 mt-1">Aguardando Programação</p>
                         </div>
                       </div>
                     )}
-                    {getSafeNumber(dadosFiltrados.callipersSubstituidos) > 0 && (
-                      <div className="flex items-start gap-3 p-3 bg-green-50/50 border border-green-200 rounded-lg">
-                        <Wrench className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    {getSafeNumber(dadosFiltrados.turbinasByPass) > 0 && (
+                      <div className="flex items-start gap-3 p-3 bg-red-50/50 border border-red-200 rounded-lg">
+                        <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                         <div>
-                          <p className="text-sm font-semibold text-green-800">
-                            {getSafeNumber(dadosFiltrados.callipersSubstituidos)} callipers substituídos
+                          <p className="text-sm font-semibold text-red-800">
+                            {getSafeNumber(dadosFiltrados.turbinasByPass)} Turbinas by-passadas
                           </p>
-                          <p className="text-xs text-green-600 mt-1">Manutenção concluída</p>
+                          <p className="text-xs text-red-600 mt-1">Intervenção necessária</p>
                         </div>
                       </div>
                     )}
