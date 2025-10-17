@@ -1,0 +1,470 @@
+{
+    "todos": {
+        "totalTurbinas": 47,
+        "totalCallipers": 235,
+        "turbinasByPass": 1,
+        "turbinasSemVazamento": 6,
+        "callipersSubstituidos": 222,
+        "substituicoesPorParque": [
+            {
+                "PARQUE": "Garrote",
+                "Total_Substituicoes": 53
+            },
+            {
+                "PARQUE": "Santo Inacio III",
+                "Total_Substituicoes": 67
+            },
+            {
+                "PARQUE": "Santo Inacio IV",
+                "Total_Substituicoes": 51
+            },
+            {
+                "PARQUE": "São Raimundo",
+                "Total_Substituicoes": 51
+            }
+        ],
+        "statusCallipers": [
+            {
+                "Status": "Reparos substituidos",
+                "Quantidade": 222,
+                "color": "#3b82f6"
+            },
+            {
+                "Status": "Sem vazamento",
+                "Quantidade": 12,
+                "color": "#22c55e"
+            },
+            {
+                "Status": "By-passada",
+                "Quantidade": 1,
+                "color": "#6b7280"
+            }
+        ],
+        "substituicoesPorMes": [
+            {
+                "Mes_Ano": "2024-02",
+                "Total_Substituicoes": 2
+            },
+            {
+                "Mes_Ano": "2024-06",
+                "Total_Substituicoes": 1
+            },
+            {
+                "Mes_Ano": "2024-07",
+                "Total_Substituicoes": 5
+            },
+            {
+                "Mes_Ano": "2024-09",
+                "Total_Substituicoes": 5
+            },
+            {
+                "Mes_Ano": "2024-11",
+                "Total_Substituicoes": 10
+            },
+            {
+                "Mes_Ano": "2024-12",
+                "Total_Substituicoes": 14
+            },
+            {
+                "Mes_Ano": "2025-01",
+                "Total_Substituicoes": 10
+            },
+            {
+                "Mes_Ano": "2025-02",
+                "Total_Substituicoes": 14
+            },
+            {
+                "Mes_Ano": "2025-03",
+                "Total_Substituicoes": 3
+            },
+            {
+                "Mes_Ano": "2025-04",
+                "Total_Substituicoes": 9
+            },
+            {
+                "Mes_Ano": "2025-05",
+                "Total_Substituicoes": 10
+            },
+            {
+                "Mes_Ano": "2025-06",
+                "Total_Substituicoes": 31
+            },
+            {
+                "Mes_Ano": "2025-07",
+                "Total_Substituicoes": 40
+            },
+            {
+                "Mes_Ano": "2025-08",
+                "Total_Substituicoes": 36
+            },
+            {
+                "Mes_Ano": "2025-09",
+                "Total_Substituicoes": 31
+            },
+            {
+                "Mes_Ano": "2025-10",
+                "Total_Substituicoes": 1
+            }
+        ],
+        "percentualTipoSubstituicao": [
+            {
+                "Tipo": "O-Ring",
+                "Percentual": 50.0,
+                "Quantidade": 222,
+                "color": "#3b82f6"
+            },
+            {
+                "Tipo": "Pastilhas",
+                "Percentual": 50.0,
+                "Quantidade": 222,
+                "color": "#f59e0b"
+            }
+        ],
+        "posicaoCallipers": [
+            {
+                "Posicao": "Calliper 01",
+                "Quantidade": 45,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 02",
+                "Quantidade": 45,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 03",
+                "Quantidade": 45,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 05",
+                "Quantidade": 44,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 04",
+                "Quantidade": 43,
+                "color": "#6b7280"
+            }
+        ],
+        "maquinasProblema": [
+            {
+                "WTG": "SI-14",
+                "PARQUE": "Garrote",
+                "POSICAO_CALLIPER": "Calliper 03",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-14",
+                "PARQUE": "Garrote",
+                "POSICAO_CALLIPER": "Calliper 04",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-08",
+                "PARQUE": "São Raimundo",
+                "POSICAO_CALLIPER": "Calliper 01",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-12",
+                "PARQUE": "São Raimundo",
+                "POSICAO_CALLIPER": "Calliper 03",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-12",
+                "PARQUE": "São Raimundo",
+                "POSICAO_CALLIPER": "Calliper 04",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-12",
+                "PARQUE": "São Raimundo",
+                "POSICAO_CALLIPER": "Calliper 05",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-36",
+                "PARQUE": "Santo Inacio IV",
+                "POSICAO_CALLIPER": "Calliper 04",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-36",
+                "PARQUE": "Santo Inacio IV",
+                "POSICAO_CALLIPER": "Calliper 05",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-38",
+                "PARQUE": "Santo Inacio IV",
+                "POSICAO_CALLIPER": "Calliper 01",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-38",
+                "PARQUE": "Santo Inacio IV",
+                "POSICAO_CALLIPER": "Calliper 02",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-05",
+                "PARQUE": "Santo Inacio III",
+                "POSICAO_CALLIPER": "Calliper 02",
+                "STATUS": "By-passada",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-05",
+                "PARQUE": "Santo Inacio III",
+                "POSICAO_CALLIPER": "Calliper 04",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            },
+            {
+                "WTG": "SI-05",
+                "PARQUE": "Santo Inacio III",
+                "POSICAO_CALLIPER": "Calliper 05",
+                "STATUS": "Sem vazamento",
+                "ANO_SUBSTITUICAO": "Data Não Informada"
+            }
+        ]
+    },
+    "2024": {
+        "totalTurbinas": 23,
+        "totalCallipers": 37,
+        "turbinasByPass": 0,
+        "turbinasSemVazamento": 0,
+        "callipersSubstituidos": 37,
+        "substituicoesPorParque": [
+            {
+                "PARQUE": "Garrote",
+                "Total_Substituicoes": 7
+            },
+            {
+                "PARQUE": "Santo Inacio III",
+                "Total_Substituicoes": 13
+            },
+            {
+                "PARQUE": "Santo Inacio IV",
+                "Total_Substituicoes": 9
+            },
+            {
+                "PARQUE": "São Raimundo",
+                "Total_Substituicoes": 8
+            }
+        ],
+        "statusCallipers": [
+            {
+                "Status": "Reparos substituidos",
+                "Quantidade": 37,
+                "color": "#3b82f6"
+            }
+        ],
+        "substituicoesPorMes": [
+            {
+                "Mes_Ano": "2024-02",
+                "Total_Substituicoes": 2
+            },
+            {
+                "Mes_Ano": "2024-06",
+                "Total_Substituicoes": 1
+            },
+            {
+                "Mes_Ano": "2024-07",
+                "Total_Substituicoes": 5
+            },
+            {
+                "Mes_Ano": "2024-09",
+                "Total_Substituicoes": 5
+            },
+            {
+                "Mes_Ano": "2024-11",
+                "Total_Substituicoes": 10
+            },
+            {
+                "Mes_Ano": "2024-12",
+                "Total_Substituicoes": 14
+            }
+        ],
+        "percentualTipoSubstituicao": [
+            {
+                "Tipo": "O-Ring",
+                "Percentual": 50.0,
+                "Quantidade": 37,
+                "color": "#3b82f6"
+            },
+            {
+                "Tipo": "Pastilhas",
+                "Percentual": 50.0,
+                "Quantidade": 37,
+                "color": "#f59e0b"
+            }
+        ],
+        "posicaoCallipers": [
+            {
+                "Posicao": "Calliper 02",
+                "Quantidade": 17,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 01",
+                "Quantidade": 8,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 03",
+                "Quantidade": 6,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 05",
+                "Quantidade": 4,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 04",
+                "Quantidade": 2,
+                "color": "#6b7280"
+            }
+        ],
+        "maquinasProblema": []
+    },
+    "2025": {
+        "totalTurbinas": 46,
+        "totalCallipers": 185,
+        "turbinasByPass": 0,
+        "turbinasSemVazamento": 0,
+        "callipersSubstituidos": 185,
+        "substituicoesPorParque": [
+            {
+                "PARQUE": "Garrote",
+                "Total_Substituicoes": 46
+            },
+            {
+                "PARQUE": "Santo Inacio III",
+                "Total_Substituicoes": 54
+            },
+            {
+                "PARQUE": "Santo Inacio IV",
+                "Total_Substituicoes": 42
+            },
+            {
+                "PARQUE": "São Raimundo",
+                "Total_Substituicoes": 43
+            }
+        ],
+        "statusCallipers": [
+            {
+                "Status": "Reparos substituidos",
+                "Quantidade": 185,
+                "color": "#3b82f6"
+            }
+        ],
+        "substituicoesPorMes": [
+            {
+                "Mes_Ano": "2025-01",
+                "Total_Substituicoes": 10
+            },
+            {
+                "Mes_Ano": "2025-02",
+                "Total_Substituicoes": 14
+            },
+            {
+                "Mes_Ano": "2025-03",
+                "Total_Substituicoes": 3
+            },
+            {
+                "Mes_Ano": "2025-04",
+                "Total_Substituicoes": 9
+            },
+            {
+                "Mes_Ano": "2025-05",
+                "Total_Substituicoes": 10
+            },
+            {
+                "Mes_Ano": "2025-06",
+                "Total_Substituicoes": 31
+            },
+            {
+                "Mes_Ano": "2025-07",
+                "Total_Substituicoes": 40
+            },
+            {
+                "Mes_Ano": "2025-08",
+                "Total_Substituicoes": 36
+            },
+            {
+                "Mes_Ano": "2025-09",
+                "Total_Substituicoes": 31
+            },
+            {
+                "Mes_Ano": "2025-10",
+                "Total_Substituicoes": 1
+            }
+        ],
+        "percentualTipoSubstituicao": [
+            {
+                "Tipo": "O-Ring",
+                "Percentual": 50.0,
+                "Quantidade": 185,
+                "color": "#3b82f6"
+            },
+            {
+                "Tipo": "Pastilhas",
+                "Percentual": 50.0,
+                "Quantidade": 185,
+                "color": "#f59e0b"
+            }
+        ],
+        "posicaoCallipers": [
+            {
+                "Posicao": "Calliper 04",
+                "Quantidade": 41,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 05",
+                "Quantidade": 40,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 03",
+                "Quantidade": 39,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 01",
+                "Quantidade": 37,
+                "color": "#6b7280"
+            },
+            {
+                "Posicao": "Calliper 02",
+                "Quantidade": 28,
+                "color": "#6b7280"
+            }
+        ],
+        "maquinasProblema": []
+    },
+    "anosDisponiveis": [
+        2024,
+        2025
+    ],
+    "parques": [
+        "Garrote",
+        "São Raimundo",
+        "Santo Inacio IV",
+        "Santo Inacio III"
+    ]
+}
