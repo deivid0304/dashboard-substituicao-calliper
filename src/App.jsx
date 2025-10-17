@@ -405,8 +405,8 @@ function App() {
                       </Bar>
                       <defs>
                         <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.8} />
-                          <stop offset="100%" stopColor="#1d4ed8" stopOpacity={0.8} />
+                          <stop offset="0%" stopColor="#17934bff" stopOpacity={0.8} />
+                          <stop offset="100%" stopColor="#1dd8acff" stopOpacity={0.8} />
                         </linearGradient>
                       </defs>
                     </BarChart>
@@ -437,7 +437,7 @@ function App() {
                           const displayStatus = Status === "Reparos substituidos"
                             ? "Reparos\nsubstituidos"
                             : Status;
-                          return `${displayStatus}: ${Quantidade} (${(percent * 100).toFixed(1)}%)`;
+                          return `${displayStatus}: (${(percent * 100).toFixed(1)}%)`;
                         }}
                         outerRadius={100}
                         innerRadius={60}
@@ -448,9 +448,14 @@ function App() {
                         {safeStatusCallipers.map((entry, index) => (
                           <Cell
                             key={`cell-${index}`}
-                            fill={entry.color || '#6b7280'}
-                            stroke={entry.Status === "Bypassada" ? "#dc2626" : undefined}
-                            strokeWidth={entry.Status === "Bypassada" ? 2 : 1}
+                            fill={
+                              entry.Status === "By-passada" ? "#ff0000" :
+                                entry.Status === "Sem vazamento" ? "#7d6a6aff" :
+                                  entry.Status === "Reparos substituidos" ? "#17934bff" :
+                                    '#806d6bff'
+                            }
+                            stroke={entry.Status === "by-passado" ? "#dc2626" : undefined}
+                            strokeWidth={entry.Status === "By-passada" ? 2 : 1}
                           />
                         ))}
                       </Pie>
@@ -458,8 +463,8 @@ function App() {
                       <Legend
                         formatter={(value, entry) => (
                           <span style={{
-                            color: value === "Bypassada" ? "#dc2626" : "#333",
-                            fontWeight: value === "Bypassada" ? "bold" : "normal"
+                            color: value === "by-passado" ? "#dc2626" : "#333",
+                            fontWeight: value === "by-passado" ? "bold" : "normal"
                           }}>
                             {value}
                           </span>
