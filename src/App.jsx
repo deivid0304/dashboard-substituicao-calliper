@@ -75,49 +75,109 @@ function App() {
     window.location.reload();
   };
 
+  // Adicione estas variantes no seu MetricCard:
   const MetricCard = ({ title, value, subtitle, icon: Icon, color = "blue", variant = "default", trend }) => (
     <Card className="relative overflow-hidden bg-gradient-to-br from-white to-gray-50/80 border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300 group">
-      <div className={`absolute inset-0 bg-gradient-to-br opacity-5 ${variant === 'alert' ? 'from-red-500 to-orange-500' :
-        variant === 'success' ? 'from-green-500 to-emerald-500' :
-          variant === 'info' ? 'from-blue-500 to-cyan-500' :
-            'from-blue-500 to-purple-500'
+      <div className={`absolute inset-0 bg-gradient-to-br opacity-5 
+      ${variant === 'alert' ? 'from-red-500 to-orange-500' :
+          variant === 'success' ? 'from-green-500 to-emerald-500' :
+            variant === 'info' ? 'from-blue-500 to-cyan-500' :
+              variant === 'orange' ? 'from-orange-500 to-amber-500' :
+                variant === 'purple' ? 'from-purple-500 to-violet-500' :
+                  variant === 'pink' ? 'from-pink-500 to-rose-500' :
+                    variant === 'yellow' ? 'from-yellow-500 to-amber-500' :
+                      variant === 'indigo' ? 'from-indigo-500 to-purple-500' :
+                        variant === 'teal' ? 'from-teal-500 to-cyan-500' :
+                          variant === 'lime' ? 'from-lime-500 to-green-500' :
+                            variant === 'fuchsia' ? 'from-fuchsia-500 to-pink-500' :
+                              variant === 'rose' ? 'from-rose-500 to-pink-500' :
+                                variant === 'sky' ? 'from-sky-500 to-blue-500' :
+                                  variant === 'emerald' ? 'from-emerald-500 to-green-500' :
+                                    'from-blue-500 to-purple-500'
         }`} />
 
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <CardTitle className={`text-sm font-semibold ${variant === 'alert' ? 'text-red-600' :
-          variant === 'success' ? 'text-green-600' :
-            variant === 'info' ? 'text-blue-600' :
-              'text-gray-600'
+        <CardTitle className={`text-sm font-semibold 
+        ${variant === 'alert' ? 'text-red-600' :
+            variant === 'success' ? 'text-green-600' :
+              variant === 'info' ? 'text-blue-600' :
+                variant === 'orange' ? 'text-orange-600' :
+                  variant === 'purple' ? 'text-purple-600' :
+                    variant === 'pink' ? 'text-pink-600' :
+                      variant === 'yellow' ? 'text-yellow-600' :
+                        variant === 'indigo' ? 'text-indigo-600' :
+                          variant === 'teal' ? 'text-teal-600' :
+                            variant === 'lime' ? 'text-lime-600' :
+                              variant === 'fuchsia' ? 'text-fuchsia-600' :
+                                variant === 'rose' ? 'text-rose-600' :
+                                  variant === 'sky' ? 'text-sky-600' :
+                                    variant === 'emerald' ? 'text-emerald-600' :
+                                      'text-gray-600'
           }`}>
           {title}
         </CardTitle>
-        <div className={`p-2 rounded-lg ${variant === 'alert' ? 'bg-red-100 text-red-600' :
-          variant === 'success' ? 'bg-green-100 text-green-600' :
-            variant === 'info' ? 'bg-blue-100 text-blue-600' :
-              'bg-blue-100 text-blue-600'
+        <div className={`p-2 rounded-lg 
+        ${variant === 'alert' ? 'bg-red-100 text-red-600' :
+            variant === 'success' ? 'bg-green-100 text-green-600' :
+              variant === 'info' ? 'bg-blue-100 text-blue-600' :
+                variant === 'orange' ? 'bg-orange-100 text-orange-600' :
+                  variant === 'purple' ? 'bg-purple-100 text-purple-600' :
+                    variant === 'pink' ? 'bg-pink-100 text-pink-600' :
+                      variant === 'yellow' ? 'bg-yellow-100 text-yellow-600' :
+                        variant === 'indigo' ? 'bg-indigo-100 text-indigo-600' :
+                          variant === 'teal' ? 'bg-teal-100 text-teal-600' :
+                            variant === 'lime' ? 'bg-lime-100 text-lime-600' :
+                              variant === 'fuchsia' ? 'bg-fuchsia-100 text-fuchsia-600' :
+                                variant === 'rose' ? 'bg-rose-100 text-rose-600' :
+                                  variant === 'sky' ? 'bg-sky-100 text-sky-600' :
+                                    variant === 'emerald' ? 'bg-emerald-100 text-emerald-600' :
+                                      'bg-blue-100 text-blue-600'
           } group-hover:scale-110 transition-transform duration-300`}>
           <Icon className="h-4 w-4" />
         </div>
       </CardHeader>
 
       <CardContent>
-        <div className={`text-3xl font-bold mb-1 ${variant === 'alert' ? 'text-red-600' :
-          variant === 'success' ? 'text-green-600' :
-            variant === 'info' ? 'text-blue-600' :
-              'text-gray-900'
+        <div className={`text-3xl font-bold mb-1 
+        ${variant === 'alert' ? 'text-red-600' :
+            variant === 'success' ? 'text-green-600' :
+              variant === 'info' ? 'text-blue-600' :
+                variant === 'orange' ? 'text-orange-600' :
+                  variant === 'purple' ? 'text-purple-600' :
+                    variant === 'pink' ? 'text-pink-600' :
+                      variant === 'yellow' ? 'text-yellow-600' :
+                        variant === 'indigo' ? 'text-indigo-600' :
+                          variant === 'teal' ? 'text-teal-600' :
+                            variant === 'lime' ? 'text-lime-600' :
+                              variant === 'fuchsia' ? 'text-fuchsia-600' :
+                                variant === 'rose' ? 'text-rose-600' :
+                                  variant === 'sky' ? 'text-sky-600' :
+                                    variant === 'emerald' ? 'text-emerald-600' :
+                                      'text-gray-900'
           }`}>
           {value || 0}
         </div>
-        <p className={`text-xs font-medium ${variant === 'alert' ? 'text-red-500' :
-          variant === 'success' ? 'text-green-500' :
-            variant === 'info' ? 'text-blue-500' :
-              'text-gray-500'
+        <p className={`text-xs font-medium 
+        ${variant === 'alert' ? 'text-red-500' :
+            variant === 'success' ? 'text-green-500' :
+              variant === 'info' ? 'text-blue-500' :
+                variant === 'orange' ? 'text-orange-500' :
+                  variant === 'purple' ? 'text-purple-500' :
+                    variant === 'pink' ? 'text-pink-500' :
+                      variant === 'yellow' ? 'text-yellow-500' :
+                        variant === 'indigo' ? 'text-indigo-500' :
+                          variant === 'teal' ? 'text-teal-500' :
+                            variant === 'lime' ? 'text-lime-500' :
+                              variant === 'fuchsia' ? 'text-fuchsia-500' :
+                                variant === 'rose' ? 'text-rose-500' :
+                                  variant === 'sky' ? 'text-sky-500' :
+                                    variant === 'emerald' ? 'text-emerald-500' :
+                                      'text-gray-500'
           }`}>
           {subtitle}
         </p>
         {trend && (
-          <div className={`flex items-center gap-1 mt-2 text-xs ${trend > 0 ? 'text-green-600' : 'text-red-600'
-            }`}>
+          <div className={`flex items-center gap-1 mt-2 text-xs ${trend > 0 ? 'text-green-600' : 'text-red-600'}`}>
             <TrendingUp className={`h-3 w-3 ${trend > 0 ? '' : 'rotate-180'}`} />
             <span>{Math.abs(trend)}%</span>
           </div>
@@ -300,39 +360,39 @@ function App() {
             value={getSafeNumber(dadosFiltrados.totalTurbinas)}
             subtitle="Complexo eólico"
             icon={Wind}
-            color="blue"
+            variant="info" // Azul
           />
           <MetricCard
             title="Total de Callipers"
             value={getSafeNumber(dadosFiltrados.totalCallipers)}
             subtitle="Qtd. de Callipers"
             icon={Settings}
-            color="green"
+            variant="sky" // Verde
           />
           <MetricCard
             title="Vedações Substituidas"
             value={getSafeNumber(dadosFiltrados.callipersSubstituidos)}
             subtitle="Qtd. de Substituições"
             icon={Wrench}
-            variant="info"
+            variant="emerald" // Azul (ou crie uma nova variante)
           />
           <MetricCard
             title="Turbinas com By-Pass"
             value={getSafeNumber(dadosFiltrados.turbinasByPass)}
             subtitle="Com vazamento"
             icon={AlertCircle}
-            variant="alert"
+            variant="alert" // Vermelho
           />
           <MetricCard
             title="Turbinas com vedações originais"
             value={getSafeNumber(dadosFiltrados.turbinasSemVazamento)}
             subtitle="Pendente substituição"
             icon={CheckCircle}
-            variant="success"
+            variant="yellow" // Verde
           />
         </div>
 
-        {/* Abas do Dashboard - COM 4 ABAS */}
+        {/* Abas do Dashboard */}
         <Tabs value={abaAtiva} onValueChange={setAbaAtiva} className="w-full">
           <TabsList className="grid w-full grid-cols-4 mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-1">
             <TabsTrigger
@@ -347,7 +407,7 @@ function App() {
               className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
             >
               <Grid3X3 className="h-4 w-4" />
-              Posições
+              Posições - Callipers
             </TabsTrigger>
             <TabsTrigger
               value="evolucao"
@@ -451,7 +511,7 @@ function App() {
                             fill={
                               entry.Status === "By-passada" ? "#ff0000" :
                                 entry.Status === "Sem vazamento" ? "#e4d076ff" :
-                                  entry.Status === "Reparos substituidos" ? "#51c830ff" :
+                                  entry.Status === "Reparos substituidos" ? "#28c55cff" :
                                     '#806d6bff'
                             }
                             stroke={entry.Status === "by-passado" ? "#dc2626" : undefined}
@@ -484,19 +544,27 @@ function App() {
               <CardHeader className="pb-4">
                 <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
                   <Grid3X3 className="h-5 w-5 text-green-600" />
-                  Distribuição por Posição
+                  Distribuição - Posição x Turbina
                 </CardTitle>
                 <CardDescription className="text-gray-600">
-                  Quantidade de callipers substituídos por posição
+                  Quantidade de callipers substituídos por posição (Total geral 47 Turbinas)
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={500}>
-                  <BarChart data={safePosicaoCallipers} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <BarChart
+                    data={[...safePosicaoCallipers].sort((a, b) => {
+                      // Extrai o número do calliper para ordenação numérica
+                      const numA = parseInt(a.Posicao.replace('Calliper ', ''));
+                      const numB = parseInt(b.Posicao.replace('Calliper ', ''));
+                      return numA - numB;
+                    })}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                     <XAxis
                       dataKey="Posicao"
-                      tick={{ fontSize: 14, fontWeight: '600' }}
+                      tick={{ fontSize: 16, fontWeight: '600' }}
                     />
                     <YAxis
                       tick={{ fontSize: 14 }}
@@ -507,16 +575,22 @@ function App() {
                       <LabelList
                         dataKey="Quantidade"
                         position="top"
-                        style={{ fontSize: '14px', fontWeight: '700', fill: '#320f0fff' }}
+                        style={{ fontSize: '16px', fontWeight: '700', fill: '#320f0fff' }}
                       />
-                      {safePosicaoCallipers.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill="#48f63bff"
-                          stroke="#0f5053ff"
-                          strokeWidth={0}
-                        />
-                      ))}
+                      {[...safePosicaoCallipers]
+                        .sort((a, b) => {
+                          const numA = parseInt(a.Posicao.replace('Calliper ', ''));
+                          const numB = parseInt(b.Posicao.replace('Calliper ', ''));
+                          return numA - numB;
+                        })
+                        .map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill="#1fac2dff"
+                            stroke="#1184cbff"
+                            strokeWidth={0}
+                          />
+                        ))}
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
@@ -546,8 +620,8 @@ function App() {
                     >
                       <defs>
                         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3bf699ff" stopOpacity={0.3} />
-                          <stop offset="95%" stopColor="#122d2aff" stopOpacity={0} />
+                          <stop offset="5%" stopColor="#4dc516ff" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#476badff" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
