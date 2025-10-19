@@ -40,6 +40,12 @@ dashboard-substituicao-calliper/
 └── Analise-de-substituicao-de-calliper.xlsx
 ```
 
+## 🖼️ Layout
+| Página 1 |
+|----------|
+| ![Página 1](./Imagem/Dashboard1.png)
+---
+
 ## ⚙️ Instalação e Configuração
 
 ### Pré-requisitos
