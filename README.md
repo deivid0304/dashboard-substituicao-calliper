@@ -1,124 +1,161 @@
-# Dashboard de Manutenção de Aerogeradores
+# 📊 Dashboard de Substituição de Callipers
 
-Este projeto contém um dashboard interativo para análise de dados de manutenção de aerogeradores, desenvolvido com React e tecnologias modernas.
+Um dashboard interativo para monitoramento e análise de substituições de callipers em parques eólicos.
 
-## 📋 Pré-requisitos
+## 🚀 Funcionalidades
 
-- Node.js (versão 18 ou superior)
-- npm ou pnpm (recomendado)
+### 📈 Métricas Principais
+- **Total de Turbinas** - Quantidade total de turbinas no complexo eólico
+- **Total de Callipers** - Inventário completo de callipers
+- **Vedações Substituídas** - Volume de intervenções realizadas
+- **Turbinas com By-Pass** - Identificação de equipamentos críticos
+- **Turbinas com Vedação Original** - Pendências de manutenção
 
-## 🚀 Como executar localmente
+### 📊 Gráficos e Visualizações
+- **Status dos Callipers** - Distribuição por condição atual
+- **Distribuição por Posição** - Quantidade de substituições por posição
+- **Evolução Mensal** - Volume de substituições ao longo do tempo
+- **Tipo de Substituição** - Distribuição entre O-Ring e Pastilhas
+- **Substituições por Parque** - Performance por parque eólico
 
-### 1. Descompactar o arquivo
-Extraia o conteúdo do arquivo `dashboard-manutencao-fixed.zip` em um diretório de sua preferência.
+## 🛠️ Tecnologias Utilizadas
 
-### 2. Navegar até o diretório
-```bash
-cd dashboard-manutencao
-```
-
-### 3. Instalar dependências
-```bash
-# Usando pnpm (recomendado)
-pnpm install
-
-# Ou usando npm
-npm install
-```
-
-### 4. Executar o servidor de desenvolvimento
-```bash
-# Usando pnpm
-pnpm run dev
-
-# Ou usando npm
-npm run dev
-```
-
-### 5. Acessar o dashboard
-Abra seu navegador e acesse: `http://localhost:5173`
-
-## 📊 Funcionalidades do Dashboard
-
-- **Cards de Métricas**: Total de Callipers e Intervenções (2014-2025)
-- **Gráficos Interativos**:
-  - Intervenções por Mês
-  - Mix de Intervenções por Parque (O-ring, Pastilhas, Ambos)
-  - Faixa de Idade da Vedação/Pastilha
-  - Qualidade dos Registros (gráfico de pizza com legenda)
-  - Performance por Técnico
-  - Evolução Anual das Intervenções (com legenda)
-
-## 🔧 Processamento de Dados
-
-O arquivo `calculate_metrics.py` processa os dados do Excel e gera o arquivo JSON usado pelo dashboard:
-
-```bash
-python3 calculate_metrics.py
-```
-
-Este script:
-- Carrega dados do arquivo Excel
-- Processa e limpa os dados
-- Calcula métricas de confiabilidade
-- Gera o arquivo `dashboard_data.json`
+- **Frontend**: React.js, TypeScript, Tailwind CSS
+- **Gráficos**: Recharts
+- **Processamento**: Python, Pandas
+- **Dados**: Excel/CSV
 
 ## 📁 Estrutura do Projeto
 
 ```
-dashboard-manutencao/
+dashboard-substituicao-calliper/
+├── public/
+│   └── dashboard_data.json
 ├── src/
-│   ├── App.jsx              # Componente principal
-│   ├── assets/
-│   │   └── dashboard_data.json  # Dados processados
-│   └── components/ui/       # Componentes UI (shadcn/ui)
-├── calculate_metrics.py     # Script de processamento
-└── package.json            # Dependências do projeto
+│   ├── components/
+│   │   ├── Dashboard.tsx
+│   │   └── ui/
+│   └── types/
+├── calculate_metrics.py
+└── Analise-de-substituicao-de-calliper.xlsx
 ```
 
-## 🛠️ Tecnologias Utilizadas
+## 🖼️ Layout
+| Página 1 |
+|----------|
+| ![Página 1](./Imagem/Dashboard1.png)
+---
 
-- **React 18** - Framework frontend
-- **Vite** - Build tool
-- **Tailwind CSS** - Estilização
-- **shadcn/ui** - Componentes UI
-- **Recharts** - Gráficos interativos
-- **Lucide React** - Ícones
-- **Python/Pandas** - Processamento de dados
+## ⚙️ Instalação e Configuração
 
-## 📈 Dados Analisados
+### Pré-requisitos
+- Node.js 16+
+- Python 3.8+
+- Pandas
 
-O dashboard analisa dados de manutenção incluindo:
-- Substituição de O-rings
-- Substituição de Pastilhas de Freio
-- Performance por técnico
-- Distribuição por parque
-- Evolução temporal (2014-2025)
+### 1. Clone o repositório
+```bash
+git clone <url-do-repositorio>
+cd dashboard-substituicao-calliper
+```
 
-## 🔍 Solução de Problemas
+### 2. Instale as dependências do frontend
+```bash
+npm install
+```
 
-### Dashboard não carrega
-1. Verifique se o arquivo `dashboard_data.json` existe em `src/assets/`
-2. Execute o script `calculate_metrics.py` para gerar os dados
-3. Verifique o console do navegador (F12) para erros
+### 3. Instale as dependências do Python
+```bash
+pip install pandas openpyxl
+```
 
-### Erro ao instalar dependências
-1. Certifique-se de ter Node.js 18+ instalado
-2. Limpe o cache: `npm cache clean --force` ou `pnpm store prune`
-3. Delete `node_modules` e reinstale
+### 4. Prepare os dados
+Coloque o arquivo Excel na raiz do projeto:
+- `Analise-de-substituicao-de-calliper.xlsx`
 
-### Gráficos não aparecem
-1. Verifique se os dados estão sendo carregados corretamente
-2. Abra o console do navegador para verificar erros
-3. Certifique-se de que o arquivo JSON está no formato correto
+### 5. Processe os dados
+```bash
+python calculate_metrics.py
+```
 
-## 📞 Suporte
+### 6. Execute o dashboard
+```bash
+npm run dev
+```
 
-Se encontrar problemas, verifique:
-1. Console do navegador (F12 → Console)
-2. Terminal onde o servidor está rodando
-3. Formato dos dados no arquivo JSON
+## 📋 Estrutura dos Dados
+
+O arquivo Excel deve conter:
+
+| Coluna | Descrição | Tipo |
+|--------|------------|------|
+| PARQUE | Nome do parque eólico | Texto |
+| ANO DE SUBSTITUICAO | Data da substituição | Data |
+| WTG | Identificação da turbina | Texto |
+| POSSICAO DO CALLIPER | Posição do calliper (1-5) | Texto |
+| SUBSTITUICAO DO ORING | Data substituição O-Ring | Data |
+| SUBSTITUICAO DAS PASTILHA | Data substituição pastilhas | Data |
+| CONDICAO CALLIPER | Condição atual | Texto |
+| STATUS | Status do calliper | Texto |
+| TECNICO | Técnico responsável | Texto |
+
+## 🎨 Personalização
+
+### Cores dos Cards
+- `info` - Azul
+- `success` - Verde  
+- `alert` - Vermelho/Laranja
+- `orange` - Laranja
+- `purple` - Roxo
+
+### Cores dos Gráficos
+- **By-passado**: 🔴 Vermelho
+- **Sem vazamento**: ⚫ Cinza  
+- **Reparos substituídos**: 🟢 Verde
+- **O-Ring**: 🔵 Azul
+- **Pastilhas**: 🟠 Laranja
+
+## 🔄 Processamento de Dados
+
+### Critérios de Cálculo
+- **Callipers substituídos**: Registros com data de O-Ring OU Pastilha
+- **Turbinas com by-pass**: Status contendo "by-pass" ou "bypass"
+- **Substituições mensais**: Inclui reincidências
+- **Filtros**: Remove registros com WTG ou posição inválidos
+
+### Script de Processamento
+O `calculate_metrics.py` realiza:
+1. Limpeza e validação dos dados
+2. Cálculo de métricas agregadas
+3. Geração do JSON para o dashboard
+4. Tratamento de reincidências
+
+## 📈 Interpretação dos Dados
+
+### Métricas Chave
+- **Eficiência de Manutenção**: Callipers substituídos vs. total
+- **Criticalidade**: Turbinas em by-pass
+- **Backlog**: Turbinas com vedações originais
+- **Tendência**: Evolução mensal das substituições
+
+## 🐛 Solução de Problemas
+
+### Dados Não Carregam
+- Verifique se o arquivo Excel está na raiz
+- Execute `python calculate_metrics.py` para regenerar
+
+### Gráficos Não Renderizam
+- Verifique o console do navegador
+- Confirme se o `dashboard_data.json` foi gerado
+
+### Valores Inconsistentes
+- Revise a estrutura do arquivo Excel
+- Verifique os critérios de filtro no script
+
+## 👥 Autores
+
+- **Seu Nome** - *Deivid Marcio*
 
 ---
 
-**Desenvolvido com ❤️ para análise de manutenção de aerogeradores**
+**⚠️ Nota**: Este dashboard é uma ferramenta de apoio à decisão. Sempre valide os insights com a equipe técnica.
