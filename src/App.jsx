@@ -377,15 +377,15 @@ function App() {
             variant="emerald" // Azul (ou crie uma nova variante)
           />
           <MetricCard
-            title="Turbinas com By-Pass"
-            value={getSafeNumber(dadosFiltrados.turbinasByPass)}
+            title="Callipers com By-Pass"
+            value={getSafeNumber(dadosFiltrados.callipersByPass)}
             subtitle="Com vazamento"
             icon={AlertCircle}
             variant="alert" // Vermelho
           />
           <MetricCard
-            title="Turbinas com vedações originais"
-            value={getSafeNumber(dadosFiltrados.turbinasSemVazamento)}
+            title="Callipers com vedações originais"
+            value={getSafeNumber(dadosFiltrados.callipersSemVazamento)}
             subtitle="Pendente substituição"
             icon={CheckCircle}
             variant="yellow" // Verde
@@ -609,7 +609,7 @@ function App() {
                     Evolução Mensal
                   </CardTitle>
                   <CardDescription className="text-gray-600">
-                    Substituições ao longo do tempo
+                    Qtd. de Substituições por Mês
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -767,25 +767,25 @@ function App() {
                         </div>
                       </div>
                     )}
-                    {getSafeNumber(dadosFiltrados.turbinasSemVazamento) > 0 && (
+                    {getSafeNumber(dadosFiltrados.callipersSemVazamento) > 0 && (
                       <div className="flex items-start gap-3 p-3 bg-yellow-50/50 border border-yellow-200 rounded-lg">
                         <CheckCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
                         <div>
                           <p className="text-sm font-semibold text-yellow-800">
-                            {getSafeNumber(dadosFiltrados.turbinasSemVazamento)} Turbinas sem vazamento
+                            {getSafeNumber(dadosFiltrados.callipersSemVazamento)} Callipers sem vazamento
                           </p>
-                          <p className="text-xs text-yellow-600 mt-1">Aguardando Programação</p>
+                          <p className="text-xs text-yellow-600 mt-1">Aguardando programação de substituição</p>
                         </div>
                       </div>
                     )}
-                    {getSafeNumber(dadosFiltrados.turbinasByPass) > 0 && (
+                    {getSafeNumber(dadosFiltrados.callipersByPass) > 0 && (
                       <div className="flex items-start gap-3 p-3 bg-red-50/50 border border-red-200 rounded-lg">
                         <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                         <div>
                           <p className="text-sm font-semibold text-red-800">
-                            {getSafeNumber(dadosFiltrados.turbinasByPass)} Turbinas by-passadas
+                            {getSafeNumber(dadosFiltrados.callipersByPass)} Callipers by-passados
                           </p>
-                          <p className="text-xs text-red-600 mt-1">Intervenção necessária</p>
+                          <p className="text-xs text-red-600 mt-1">Intervenção urgente necessária</p>
                         </div>
                       </div>
                     )}
@@ -800,10 +800,10 @@ function App() {
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
                     <AlertCircle className="h-5 w-5 text-red-600" />
-                    Máquinas com Callipers Problemáticos
+                    Relação de Máquinas Pendentes de Substituição.
                   </CardTitle>
                   <CardDescription className="text-gray-600">
-                    Lista de turbinas com callipers by-passados ou sem vazamento (pendentes)
+                    Lista de turbinas com callipers by-passados e Pendentes de substituição.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

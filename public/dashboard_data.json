@@ -2,8 +2,8 @@
     "todos": {
         "totalTurbinas": 47,
         "totalCallipers": 235,
-        "turbinasByPass": 1,
-        "turbinasSemVazamento": 6,
+        "callipersByPass": 1,
+        "callipersSemVazamento": 12,
         "callipersSubstituidos": 222,
         "substituicoesPorParque": [
             {
@@ -59,11 +59,11 @@
             },
             {
                 "Mes_Ano": "2024-11",
-                "Total_Substituicoes": 10
+                "Total_Substituicoes": 11
             },
             {
                 "Mes_Ano": "2024-12",
-                "Total_Substituicoes": 14
+                "Total_Substituicoes": 13
             },
             {
                 "Mes_Ano": "2025-01",
@@ -87,11 +87,11 @@
             },
             {
                 "Mes_Ano": "2025-06",
-                "Total_Substituicoes": 31
+                "Total_Substituicoes": 30
             },
             {
                 "Mes_Ano": "2025-07",
-                "Total_Substituicoes": 40
+                "Total_Substituicoes": 32
             },
             {
                 "Mes_Ano": "2025-08",
@@ -99,11 +99,11 @@
             },
             {
                 "Mes_Ano": "2025-09",
-                "Total_Substituicoes": 31
+                "Total_Substituicoes": 37
             },
             {
                 "Mes_Ano": "2025-10",
-                "Total_Substituicoes": 1
+                "Total_Substituicoes": 4
             }
         ],
         "percentualTipoSubstituicao": [
@@ -244,8 +244,8 @@
     "2024": {
         "totalTurbinas": 23,
         "totalCallipers": 37,
-        "turbinasByPass": 0,
-        "turbinasSemVazamento": 0,
+        "callipersByPass": 0,
+        "callipersSemVazamento": 0,
         "callipersSubstituidos": 37,
         "substituicoesPorParque": [
             {
@@ -291,11 +291,11 @@
             },
             {
                 "Mes_Ano": "2024-11",
-                "Total_Substituicoes": 10
+                "Total_Substituicoes": 11
             },
             {
                 "Mes_Ano": "2024-12",
-                "Total_Substituicoes": 14
+                "Total_Substituicoes": 13
             }
         ],
         "percentualTipoSubstituicao": [
@@ -344,8 +344,8 @@
     "2025": {
         "totalTurbinas": 46,
         "totalCallipers": 185,
-        "turbinasByPass": 0,
-        "turbinasSemVazamento": 0,
+        "callipersByPass": 0,
+        "callipersSemVazamento": 0,
         "callipersSubstituidos": 185,
         "substituicoesPorParque": [
             {
@@ -395,11 +395,11 @@
             },
             {
                 "Mes_Ano": "2025-06",
-                "Total_Substituicoes": 31
+                "Total_Substituicoes": 30
             },
             {
                 "Mes_Ano": "2025-07",
-                "Total_Substituicoes": 40
+                "Total_Substituicoes": 32
             },
             {
                 "Mes_Ano": "2025-08",
@@ -407,11 +407,11 @@
             },
             {
                 "Mes_Ano": "2025-09",
-                "Total_Substituicoes": 31
+                "Total_Substituicoes": 37
             },
             {
                 "Mes_Ano": "2025-10",
-                "Total_Substituicoes": 1
+                "Total_Substituicoes": 4
             }
         ],
         "percentualTipoSubstituicao": [
