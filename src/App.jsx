@@ -837,7 +837,7 @@ function App() {
                                 </Badge>
                               </td>
                               <td className="p-4 text-gray-700">
-                                {maquina.ANO_SUBSTITUICAO && maquina.ANO_SUBSTITUICAO !== "Data Não Informada" ?
+                                {maquina.ANO_SUBSTITUICAO && maquina.ANO_SUBSTITUICAO !== "Aguardando Programação" ?
                                   new Date(maquina.ANO_SUBSTITUICAO).toLocaleDateString('pt-BR') :
                                   maquina.ANO_SUBSTITUICAO || 'N/A'
                                 }

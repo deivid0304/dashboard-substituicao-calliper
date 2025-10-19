@@ -327,7 +327,7 @@ def calcular_dados_por_ano(df, ano=None):
                 "PARQUE": str(parque),
                 "POSICAO_CALLIPER": str(posicao),
                 "STATUS": str(status),
-                "ANO_SUBSTITUICAO": data_substituicao.strftime('%Y-%m-%d') if pd.notna(data_substituicao) else "Data Não Informada"
+                "ANO_SUBSTITUICAO": data_substituicao.strftime('%Y-%m-%d') if pd.notna(data_substituicao) else "Aguardando Programação"
             })
         
         # Calcular callipers substituídos
