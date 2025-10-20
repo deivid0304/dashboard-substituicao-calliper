@@ -291,8 +291,8 @@ function App() {
           <Button
             variant={anoFiltro === 'todos' ? "default" : "outline"}
             className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === 'todos'
-                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
+              ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
+              : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
               }`}
             onClick={() => handleFiltrar('todos')}
           >
@@ -303,8 +303,8 @@ function App() {
           <Button
             variant={anoFiltro === '2024' ? "default" : "outline"}
             className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2024'
-                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
+              ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
+              : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
               }`}
             onClick={() => handleFiltrar('2024')}
           >
@@ -315,8 +315,8 @@ function App() {
           <Button
             variant={anoFiltro === '2025' ? "default" : "outline"}
             className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2025'
-                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
+              ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
+              : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
               }`}
             onClick={() => handleFiltrar('2025')}
           >
@@ -339,8 +339,8 @@ function App() {
 
       {/* Conteúdo Principal */}
       <div className="flex-1 flex flex-col min-h-screen">
-        {/* Header Centralizado */}
-        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-10">
+        {/* Header Centralizado - REMOVIDO sticky top-0 */}
+        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60">
           <div className="container mx-auto px-6 py-8">
             <div className="flex flex-col items-center justify-center text-center gap-4">
               <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg">
