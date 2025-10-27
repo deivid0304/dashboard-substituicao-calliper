@@ -20,7 +20,9 @@ import {
   Users,
   Zap,
   Grid3X3,
-  Printer
+  Printer,
+  Menu,
+  X
 } from 'lucide-react';
 import './App.css';
 
@@ -30,6 +32,7 @@ function App() {
   const [dadosFiltrados, setDadosFiltrados] = useState(null);
   const [abaAtiva, setAbaAtiva] = useState('analise');
   const [hoverValue, setHoverValue] = useState(null);
+  const [sidebarVisivel, setSidebarVisivel] = useState(true); // Sidebar visível por padrão
 
   useEffect(() => {
     fetch('/dashboard_data.json')
@@ -74,6 +77,10 @@ function App() {
 
   const handleAtualizar = () => {
     window.location.reload();
+  };
+
+  const toggleSidebar = () => {
+    setSidebarVisivel(!sidebarVisivel);
   };
 
   // Componente MetricCard
@@ -273,74 +280,89 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex">
-      {/* Sidebar Vertical */}
-      <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200/60 flex flex-col p-6">
-        {/* Logo/Título da Sidebar */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-xl shadow-lg">
-            <Zap className="h-6 w-6 text-white" />
+      {/* Sidebar Vertical - Condicional */}
+      {sidebarVisivel && (
+        <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200/60 flex flex-col p-6 transition-all duration-300">
+          {/* Logo/Título da Sidebar */}
+          <div className="flex items-center gap-3 mb-8">
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-xl shadow-lg">
+              <Zap className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">Callipers</h2>
+              <p className="text-xs text-gray-600">Monitoramento</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">Callipers</h2>
-            <p className="text-xs text-gray-600">Monitoramento</p>
-          </div>
-        </div>
 
-        {/* Botões de Filtro - Layout Vertical */}
-        <div className="space-y-3 flex-1">
-          <Button
-            variant={anoFiltro === 'todos' ? "default" : "outline"}
-            className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === 'todos'
-              ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-              : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
-              }`}
-            onClick={() => handleFiltrar('todos')}
-          >
-            <Calendar className="h-4 w-4" />
-            Todos os Anos
-          </Button>
-
-          <Button
-            variant={anoFiltro === '2024' ? "default" : "outline"}
-            className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2024'
-              ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-              : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
-              }`}
-            onClick={() => handleFiltrar('2024')}
-          >
-            <Calendar className="h-4 w-4" />
-            2024
-          </Button>
-
-          <Button
-            variant={anoFiltro === '2025' ? "default" : "outline"}
-            className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2025'
-              ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-              : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
-              }`}
-            onClick={() => handleFiltrar('2025')}
-          >
-            <Calendar className="h-4 w-4" />
-            2025
-          </Button>
-
-          <div className="pt-4 border-t border-gray-200/60 mt-4">
+          {/* Botões de Filtro - Layout Vertical */}
+          <div className="space-y-3 flex-1">
             <Button
-              variant="outline"
-              className="w-full justify-start gap-3 h-12 bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md transition-all duration-300 font-medium"
-              onClick={handleExportar}
+              variant={anoFiltro === 'todos' ? "default" : "outline"}
+              className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === 'todos'
+                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
+                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
+                }`}
+              onClick={() => handleFiltrar('todos')}
             >
-              <Printer className="h-4 w-4" />
-              Exportar
+              <Calendar className="h-4 w-4" />
+              Todos os Anos
             </Button>
+
+            <Button
+              variant={anoFiltro === '2024' ? "default" : "outline"}
+              className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2024'
+                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
+                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
+                }`}
+              onClick={() => handleFiltrar('2024')}
+            >
+              <Calendar className="h-4 w-4" />
+              2024
+            </Button>
+
+            <Button
+              variant={anoFiltro === '2025' ? "default" : "outline"}
+              className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2025'
+                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
+                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
+                }`}
+              onClick={() => handleFiltrar('2025')}
+            >
+              <Calendar className="h-4 w-4" />
+              2025
+            </Button>
+
+            <div className="pt-4 border-t border-gray-200/60 mt-4">
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 h-12 bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md transition-all duration-300 font-medium"
+                onClick={handleExportar}
+              >
+                <Printer className="h-4 w-4" />
+                Exportar
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Conteúdo Principal */}
-      <div className="flex-1 flex flex-col min-h-screen">
-        {/* Header Centralizado - REMOVIDO sticky top-0 */}
-        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60">
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${sidebarVisivel ? '' : 'w-full'}`}>
+        {/* Header com botão para toggle */}
+        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60 relative">
+          {/* Botão para mostrar/ocultar sidebar */}
+          <button
+            onClick={toggleSidebar}
+            className="absolute left-6 top-6 p-2 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200/60 hover:bg-white hover:shadow-md transition-all duration-300 z-10"
+            title={sidebarVisivel ? "Ocultar sidebar" : "Mostrar sidebar"}
+          >
+            {sidebarVisivel ? (
+              <X className="h-5 w-5 text-gray-700" />
+            ) : (
+              <Menu className="h-5 w-5 text-gray-700" />
+            )}
+          </button>
+
           <div className="container mx-auto px-6 py-8">
             <div className="flex flex-col items-center justify-center text-center gap-4">
               <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg">
