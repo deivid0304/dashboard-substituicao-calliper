@@ -465,36 +465,38 @@ function App() {
             />
           </div>
 
-          {/* Abas do Dashboard - CORRIGIDO: Tabs visíveis no mobile */}
+          {/* Abas do Dashboard - Responsivas */}
           <Tabs value={abaAtiva} onValueChange={setAbaAtiva} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6 lg:mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-xl lg:rounded-2xl p-1 gap-1">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-6 lg:mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-xl lg:rounded-2xl p-1 gap-1">
               <TabsTrigger
                 value="analise"
-                className="flex items-center justify-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto px-1 lg:px-3 min-w-0"
+                className="flex items-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto"
               >
-                <BarChart3 className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                <span className="truncate">Geral</span>
+                <BarChart3 className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden xs:inline">Análise</span>
+                <span className="xs:hidden">Geral</span>
               </TabsTrigger>
               <TabsTrigger
                 value="posicoes"
-                className="flex items-center justify-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto px-1 lg:px-3 min-w-0"
+                className="flex items-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto"
               >
-                <Grid3X3 className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                <span className="truncate">Posições</span>
+                <Grid3X3 className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Posições</span>
+                <span className="sm:hidden">Pos</span>
               </TabsTrigger>
               <TabsTrigger
                 value="evolucao"
-                className="flex items-center justify-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto px-1 lg:px-3 min-w-0"
+                className="flex items-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto"
               >
-                <TrendingUp className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                <span className="truncate">Evolução</span>
+                <TrendingUp className="h-3 w-3 lg:h-4 lg:w-4" />
+                Evolução
               </TabsTrigger>
               <TabsTrigger
                 value="relatorios"
-                className="flex items-center justify-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto px-1 lg:px-3 min-w-0"
+                className="flex items-center gap-1 lg:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg lg:rounded-xl transition-all text-xs lg:text-sm h-10 lg:h-auto"
               >
-                <FileText className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                <span className="truncate">Relatórios</span>
+                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
+                Relatórios
               </TabsTrigger>
             </TabsList>
 
