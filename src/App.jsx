@@ -22,7 +22,8 @@ import {
   Grid3X3,
   Printer,
   Menu,
-  X
+  X,
+  Home
 } from 'lucide-react';
 import './App.css';
 
@@ -32,7 +33,8 @@ function App() {
   const [dadosFiltrados, setDadosFiltrados] = useState(null);
   const [abaAtiva, setAbaAtiva] = useState('analise');
   const [hoverValue, setHoverValue] = useState(null);
-  const [sidebarVisivel, setSidebarVisivel] = useState(true); // Sidebar visível por padrão
+  const [sidebarVisivel, setSidebarVisivel] = useState(false); // Oculto por padrão no mobile
+  const [filtroAberto, setFiltroAberto] = useState(false); // Menu de filtros móvel
 
   useEffect(() => {
     fetch('/dashboard_data.json')
@@ -69,10 +71,11 @@ function App() {
 
   const handleFiltrar = (ano) => {
     setAnoFiltro(ano);
+    setFiltroAberto(false); // Fecha menu móvel após seleção
   };
 
   const handleExportar = () => {
-    window.print(); // Abre a impressão do documento
+    window.print();
   };
 
   const handleAtualizar = () => {
@@ -83,7 +86,11 @@ function App() {
     setSidebarVisivel(!sidebarVisivel);
   };
 
-  // Componente MetricCard
+  const toggleFiltroMobile = () => {
+    setFiltroAberto(!filtroAberto);
+  };
+
+  // Componente MetricCard otimizado para mobile
   const MetricCard = ({ title, value, subtitle, icon: Icon, color = "blue", variant = "default", trend }) => (
     <Card className="relative overflow-hidden bg-gradient-to-br from-white to-gray-50/80 border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300 group">
       <div className={`absolute inset-0 bg-gradient-to-br opacity-5 
@@ -104,8 +111,8 @@ function App() {
                                     'from-blue-500 to-purple-500'
         }`} />
 
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <CardTitle className={`text-sm font-semibold 
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className={`text-xs font-semibold 
         ${variant === 'alert' ? 'text-red-600' :
             variant === 'success' ? 'text-green-600' :
               variant === 'info' ? 'text-blue-600' :
@@ -124,7 +131,7 @@ function App() {
           }`}>
           {title}
         </CardTitle>
-        <div className={`p-2 rounded-lg 
+        <div className={`p-1.5 rounded-lg 
         ${variant === 'alert' ? 'bg-red-100 text-red-600' :
             variant === 'success' ? 'bg-green-100 text-green-600' :
               variant === 'info' ? 'bg-blue-100 text-blue-600' :
@@ -141,12 +148,12 @@ function App() {
                                     variant === 'emerald' ? 'bg-emerald-100 text-emerald-600' :
                                       'bg-blue-100 text-blue-600'
           } group-hover:scale-110 transition-transform duration-300`}>
-          <Icon className="h-4 w-4" />
+          <Icon className="h-3 w-3" />
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div className={`text-3xl font-bold mb-1 
+      <CardContent className="p-3">
+        <div className={`text-xl font-bold mb-1 
         ${variant === 'alert' ? 'text-red-600' :
             variant === 'success' ? 'text-green-600' :
               variant === 'info' ? 'text-blue-600' :
@@ -185,7 +192,7 @@ function App() {
           {subtitle}
         </p>
         {trend && (
-          <div className={`flex items-center gap-1 mt-2 text-xs ${trend > 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <div className={`flex items-center gap-1 mt-1 text-xs ${trend > 0 ? 'text-green-600' : 'text-red-600'}`}>
             <TrendingUp className={`h-3 w-3 ${trend > 0 ? '' : 'rotate-180'}`} />
             <span>{Math.abs(trend)}%</span>
           </div>
@@ -197,12 +204,12 @@ function App() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-4 border border-gray-200 rounded-xl shadow-xl">
-          <p className="font-semibold text-gray-900 mb-2">{label}</p>
+        <div className="bg-white/95 backdrop-blur-sm p-3 border border-gray-200 rounded-lg shadow-lg max-w-[200px]">
+          <p className="font-semibold text-gray-900 mb-1 text-sm">{label}</p>
           {payload.map((entry, index) => (
-            <div key={index} className="flex items-center gap-2 text-sm">
+            <div key={index} className="flex items-center gap-2 text-xs">
               <div
-                className="w-3 h-3 rounded-full"
+                className="w-2 h-2 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
               <span className="text-gray-600">{entry.name}:</span>
@@ -221,23 +228,23 @@ function App() {
       const quantidade = payload[0].value;
       const percentual = ((quantidade / 47) * 100).toFixed(1);
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-4 border border-gray-200 rounded-xl shadow-xl">
-          <p className="font-semibold text-gray-900 mb-2">Posição {label}</p>
-          <div className="flex items-center gap-2 text-sm">
+        <div className="bg-white/95 backdrop-blur-sm p-3 border border-gray-200 rounded-lg shadow-lg max-w-[200px]">
+          <p className="font-semibold text-gray-900 mb-1 text-sm">Posição {label}</p>
+          <div className="flex items-center gap-2 text-xs">
             <div
-              className="w-3 h-3 rounded-full"
+              className="w-2 h-2 rounded-full"
               style={{ backgroundColor: calcularCorHex(quantidade) }}
             />
             <span className="text-gray-600">Quantidade:</span>
             <span className="font-semibold text-gray-900">{quantidade}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm mt-1">
+          <div className="flex items-center gap-2 text-xs mt-1">
             <span className="text-gray-600">Percentual:</span>
             <span className="font-semibold text-gray-900">{percentual}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
             <div
-              className="h-2 rounded-full transition-all duration-500"
+              className="h-1.5 rounded-full transition-all duration-500"
               style={{
                 width: `${percentual}%`,
                 backgroundColor: calcularCorHex(quantidade)
@@ -257,14 +264,14 @@ function App() {
   // Estado de loading
   if (!dashboardData || !dadosFiltrados) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="relative">
-            <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-            <Zap className="w-6 h-6 text-blue-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3"></div>
+            <Zap className="w-5 h-5 text-blue-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Carregando Dashboard</h3>
-          <p className="text-gray-600 text-sm">Analisando dados de callipers...</p>
+          <h3 className="text-base font-semibold text-gray-900 mb-1">Carregando Dashboard</h3>
+          <p className="text-gray-600 text-xs">Analisando dados de callipers...</p>
         </div>
       </div>
     );
@@ -279,111 +286,155 @@ function App() {
   const safeMaquinasProblema = getSafeArray(dadosFiltrados.maquinasProblema);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex">
-      {/* Sidebar Vertical - Condicional */}
-      {sidebarVisivel && (
-        <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200/60 flex flex-col p-6 transition-all duration-300">
-          {/* Logo/Título da Sidebar */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-xl shadow-lg">
-              <Zap className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-gray-900">Callipers</h2>
-              <p className="text-xs text-gray-600">Monitoramento</p>
-            </div>
-          </div>
-
-          {/* Botões de Filtro - Layout Vertical */}
-          <div className="space-y-3 flex-1">
-            <Button
-              variant={anoFiltro === 'todos' ? "default" : "outline"}
-              className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === 'todos'
-                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
-                }`}
-              onClick={() => handleFiltrar('todos')}
-            >
-              <Calendar className="h-4 w-4" />
-              Todos os Anos
-            </Button>
-
-            <Button
-              variant={anoFiltro === '2024' ? "default" : "outline"}
-              className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2024'
-                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
-                }`}
-              onClick={() => handleFiltrar('2024')}
-            >
-              <Calendar className="h-4 w-4" />
-              2024
-            </Button>
-
-            <Button
-              variant={anoFiltro === '2025' ? "default" : "outline"}
-              className={`w-full justify-start gap-3 h-12 transition-all duration-300 font-medium ${anoFiltro === '2025'
-                ? 'bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:from-blue-700 hover:to-purple-800 transform hover:scale-[1.02]'
-                : 'bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md'
-                }`}
-              onClick={() => handleFiltrar('2025')}
-            >
-              <Calendar className="h-4 w-4" />
-              2025
-            </Button>
-
-            <div className="pt-4 border-t border-gray-200/60 mt-4">
-              <Button
-                variant="outline"
-                className="w-full justify-start gap-3 h-12 bg-white/70 backdrop-blur-sm border-gray-300/70 text-gray-700 hover:bg-white hover:border-gray-400 hover:shadow-md transition-all duration-300 font-medium"
-                onClick={handleExportar}
-              >
-                <Printer className="h-4 w-4" />
-                Exportar
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Conteúdo Principal */}
-      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${sidebarVisivel ? '' : 'w-full'}`}>
-        {/* Header com botão para toggle */}
-        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60 relative">
-          {/* Botão para mostrar/ocultar sidebar */}
-          <button
-            onClick={toggleSidebar}
-            className="absolute left-6 top-6 p-2 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200/60 hover:bg-white hover:shadow-md transition-all duration-300 z-10"
-            title={sidebarVisivel ? "Ocultar sidebar" : "Mostrar sidebar"}
-          >
-            {sidebarVisivel ? (
-              <X className="h-5 w-5 text-gray-700" />
-            ) : (
-              <Menu className="h-5 w-5 text-gray-700" />
-            )}
-          </button>
-
-          <div className="container mx-auto px-6 py-8">
-            <div className="flex flex-col items-center justify-center text-center gap-4">
-              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg">
-                <Zap className="h-10 w-10 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
+      {/* Sidebar para Desktop */}
+      <div className="hidden lg:flex">
+        {sidebarVisivel && (
+          <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200/60 flex flex-col p-4">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-1.5 rounded-xl shadow-lg">
+                <Zap className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-blue-600 bg-clip-text text-transparent">
-                  Monitoramento Callipers
-                </h1>
-                <p className="text-gray-600 text-lg mt-2 font-medium">
-                  Complexo Eólico Santo Inácio • 2024-2025
-                </p>
+                <h2 className="text-base font-bold text-gray-900">Callipers</h2>
+                <p className="text-xs text-gray-600">Monitoramento</p>
               </div>
             </div>
+
+            <div className="space-y-2 flex-1">
+              <Button
+                variant={anoFiltro === 'todos' ? "default" : "outline"}
+                className="w-full justify-start gap-2 h-10 text-sm"
+                onClick={() => handleFiltrar('todos')}
+              >
+                <Calendar className="h-3 w-3" />
+                Todos os Anos
+              </Button>
+
+              <Button
+                variant={anoFiltro === '2024' ? "default" : "outline"}
+                className="w-full justify-start gap-2 h-10 text-sm"
+                onClick={() => handleFiltrar('2024')}
+              >
+                <Calendar className="h-3 w-3" />
+                2024
+              </Button>
+
+              <Button
+                variant={anoFiltro === '2025' ? "default" : "outline"}
+                className="w-full justify-start gap-2 h-10 text-sm"
+                onClick={() => handleFiltrar('2025')}
+              >
+                <Calendar className="h-3 w-3" />
+                2025
+              </Button>
+
+              <div className="pt-3 border-t border-gray-200/60 mt-3">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2 h-10 text-sm"
+                  onClick={handleExportar}
+                >
+                  <Printer className="h-3 w-3" />
+                  Exportar
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Conteúdo Principal */}
+      <div className="flex-1 flex flex-col min-h-screen">
+        {/* Header Mobile */}
+        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-40">
+          <div className="px-4 py-3">
+            <div className="flex items-center justify-between">
+              {/* Botão menu mobile */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleSidebar}
+                  className="p-1.5 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200/60 hover:bg-white hover:shadow-md transition-all duration-300 lg:hidden"
+                >
+                  <Menu className="h-4 w-4 text-gray-700" />
+                </button>
+                
+                <button
+                  onClick={toggleFiltroMobile}
+                  className="p-1.5 rounded-lg bg-white/80 backdrop-blur-sm border border-gray-200/60 hover:bg-white hover:shadow-md transition-all duration-300 lg:hidden"
+                >
+                  <Filter className="h-4 w-4 text-gray-700" />
+                </button>
+              </div>
+
+              {/* Logo mobile */}
+              <div className="flex items-center gap-2">
+                <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-1.5 rounded-lg">
+                  <Zap className="h-5 w-5 text-white" />
+                </div>
+                <div className="text-center">
+                  <h1 className="text-lg font-bold text-gray-900">Callipers</h1>
+                  <p className="text-xs text-gray-600 hidden xs:block">Monitoramento</p>
+                </div>
+              </div>
+
+              {/* Botão exportar mobile */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExportar}
+                className="lg:hidden"
+              >
+                <Printer className="h-3 w-3" />
+              </Button>
+            </div>
+
+            {/* Menu de Filtros Mobile */}
+            {filtroAberto && (
+              <div className="mt-3 p-3 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-lg shadow-lg lg:hidden">
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant={anoFiltro === 'todos' ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleFiltrar('todos')}
+                    className="text-xs h-8"
+                  >
+                    Todos
+                  </Button>
+                  <Button
+                    variant={anoFiltro === '2024' ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleFiltrar('2024')}
+                    className="text-xs h-8"
+                  >
+                    2024
+                  </Button>
+                  <Button
+                    variant={anoFiltro === '2025' ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleFiltrar('2025')}
+                    className="text-xs h-8"
+                  >
+                    2025
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAtualizar}
+                    className="text-xs h-8"
+                  >
+                    <RefreshCw className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Conteúdo do Dashboard */}
-        <div className="flex-1 container mx-auto px-6 py-8">
-          {/* Grid de Métricas */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div className="flex-1 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 lg:py-8">
+          {/* Grid de Métricas - Mobile First */}
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4 mb-4 sm:mb-6 lg:mb-8">
             <MetricCard
               title="Total Turbinas"
               value={getSafeNumber(dadosFiltrados.totalTurbinas)}
@@ -392,30 +443,30 @@ function App() {
               variant="info"
             />
             <MetricCard
-              title="Total de Callipers"
+              title="Total Callipers"
               value={getSafeNumber(dadosFiltrados.totalCallipers)}
               subtitle="Qtd. de Callipers"
               icon={Settings}
               variant="sky"
             />
             <MetricCard
-              title="Vedações Substituidas"
+              title="Substituições"
               value={getSafeNumber(dadosFiltrados.callipersSubstituidos)}
-              subtitle="Qtd. de Substituições"
+              subtitle="Vedações substituídas"
               icon={Wrench}
               variant="emerald"
             />
             <MetricCard
-              title="Callipers com By-Pass"
+              title="By-Pass"
               value={getSafeNumber(dadosFiltrados.callipersByPass)}
               subtitle="Com vazamento"
               icon={AlertCircle}
               variant="alert"
             />
             <MetricCard
-              title="Callipers com vedações originais"
+              title="Originais"
               value={getSafeNumber(dadosFiltrados.callipersSemVazamento)}
-              subtitle="Pendente substituição"
+              subtitle="Pendentes"
               icon={CheckCircle}
               variant="yellow"
             />
@@ -423,73 +474,77 @@ function App() {
 
           {/* Abas do Dashboard */}
           <Tabs value={abaAtiva} onValueChange={setAbaAtiva} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-1">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-4 sm:mb-6 lg:mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-lg sm:rounded-2xl p-0.5 sm:p-1 text-xs sm:text-sm">
               <TabsTrigger
                 value="analise"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-1 sm:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md sm:rounded-xl transition-all py-2 sm:py-2"
               >
-                <BarChart3 className="h-4 w-4" />
-                Análise Geral
+                <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline">Análise</span>
+                <span className="xs:hidden">Geral</span>
               </TabsTrigger>
               <TabsTrigger
                 value="posicoes"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-1 sm:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md sm:rounded-xl transition-all py-2 sm:py-2"
               >
-                <Grid3X3 className="h-4 w-4" />
-                Posições - Callipers
+                <Grid3X3 className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Posições</span>
+                <span className="sm:hidden">Pos</span>
               </TabsTrigger>
               <TabsTrigger
                 value="evolucao"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-1 sm:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md sm:rounded-xl transition-all py-2 sm:py-2"
               >
-                <TrendingUp className="h-4 w-4" />
-                Evolução Temporal
+                <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Evolução</span>
+                <span className="sm:hidden">Evol</span>
               </TabsTrigger>
               <TabsTrigger
                 value="relatorios"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-1 sm:gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md sm:rounded-xl transition-all py-2 sm:py-2"
               >
-                <FileText className="h-4 w-4" />
-                Relatórios
+                <FileText className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Relatórios</span>
+                <span className="sm:hidden">Relat</span>
               </TabsTrigger>
             </TabsList>
 
             {/* Aba 1: Análise Geral */}
-            <TabsContent value="analise" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="analise" className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
                 {/* Substituições por Parque */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <BarChart3 className="h-5 w-5 text-blue-600" />
+                  <CardHeader className="pb-2 sm:pb-4">
+                    <CardTitle className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+                      <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                       Substituições por Parque
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Quantidade de callipers substituídos por parque
+                    <CardDescription className="text-xs sm:text-sm text-gray-600">
+                      Callipers substituídos por parque
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <BarChart data={safeSubstituicoesPorParque} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                    <ResponsiveContainer width="100%" height={250} className="text-xs sm:text-sm">
+                      <BarChart data={safeSubstituicoesPorParque} margin={{ top: 10, right: 10, left: 0, bottom: 30 }}>
+                        <CartesianGrid strokeDasharray="2 2" stroke="#f3f4f6" />
                         <XAxis
                           dataKey="PARQUE"
-                          tick={{ fontSize: 14 }}
-                          angle={-23}
+                          tick={{ fontSize: 10 }}
+                          angle={-25}
                           textAnchor="end"
-                          height={60}
+                          height={40}
                         />
-                        <YAxis tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 10 }} />
                         <Tooltip content={<CustomTooltip />} />
                         <Bar
                           dataKey="Total_Substituicoes"
                           fill="url(#colorGradient)"
-                          radius={[6, 6, 0, 0]}
+                          radius={[4, 4, 0, 0]}
                         >
                           <LabelList
                             dataKey="Total_Substituicoes"
                             position="top"
-                            style={{ fontSize: '12px', fontWeight: '600', fill: '#374151' }}
+                            style={{ fontSize: '10px', fontWeight: '600', fill: '#374151' }}
                           />
                         </Bar>
                         <defs>
@@ -505,31 +560,29 @@ function App() {
 
                 {/* Status dos Callipers */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <Users className="h-5 w-5 text-purple-600" />
+                  <CardHeader className="pb-2 sm:pb-4">
+                    <CardTitle className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+                      <Users className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
                       Status dos Callipers
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Distribuição por condição atual
+                    <CardDescription className="text-xs sm:text-sm text-gray-600">
+                      Distribuição por condição
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                    <ResponsiveContainer width="100%" height={250}>
                       <PieChart>
                         <Pie
                           data={safeStatusCallipers}
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          label={({ Status, Quantidade, percent }) => {
-                            const displayStatus = Status === "Reparos substituidos"
-                              ? "Reparos\nsubstituidos"
-                              : Status;
-                            return `${displayStatus}: (${(percent * 100).toFixed(1)}%)`;
+                          label={({ Status, percent }) => {
+                            const displayStatus = Status === "Reparos substituidos" ? "Reparos" : Status;
+                            return `${displayStatus}: ${(percent * 100).toFixed(0)}%`;
                           }}
-                          outerRadius={100}
-                          innerRadius={60}
+                          outerRadius={80}
+                          innerRadius={40}
                           fill="#8884d8"
                           dataKey="Quantidade"
                           nameKey="Status"
@@ -543,19 +596,17 @@ function App() {
                                     entry.Status === "Reparos substituidos" ? "#28c55cff" :
                                       '#806d6bff'
                               }
-                              stroke={entry.Status === "by-passado" ? "#dc2626" : undefined}
+                              stroke={entry.Status === "By-passada" ? "#dc2626" : undefined}
                               strokeWidth={entry.Status === "By-passada" ? 2 : 1}
                             />
                           ))}
                         </Pie>
                         <Tooltip />
-                        <Legend
-                          formatter={(value, entry) => (
-                            <span style={{
-                              color: value === "by-passado" ? "#dc2626" : "#333",
-                              fontWeight: value === "by-passado" ? "bold" : "normal"
-                            }}>
-                              {value}
+                        <Legend 
+                          wrapperStyle={{ fontSize: '10px' }}
+                          formatter={(value) => (
+                            <span style={{ fontSize: '10px' }}>
+                              {value === "Reparos substituidos" ? "Reparos" : value}
                             </span>
                           )}
                         />
@@ -567,44 +618,41 @@ function App() {
             </TabsContent>
 
             {/* Aba 2: Posições dos Callipers */}
-            <TabsContent value="posicoes" className="space-y-6">
-              {/* Gráfico de Barras com Gradiente */}
+            <TabsContent value="posicoes" className="space-y-4 sm:space-y-6">
               <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                    <Grid3X3 className="h-5 w-5 text-green-600" />
-                    Distribuição - Posição x Turbina
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+                    <Grid3X3 className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                    Distribuição por Posição
                   </CardTitle>
-                  <CardDescription className="text-gray-600">
-                    Quantidade de callipers substituídos por posição (Total geral 47 Turbinas)
+                  <CardDescription className="text-xs sm:text-sm text-gray-600">
+                    Callipers substituídos por posição (47 Turbinas)
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
+                  <ResponsiveContainer width="100%" height={300} className="text-xs">
                     <BarChart
                       data={[...safePosicaoCallipers].sort((a, b) => {
-                        // Extrai o número do calliper para ordenação numérica
                         const numA = parseInt(a.Posicao.replace('Calliper ', ''));
                         const numB = parseInt(b.Posicao.replace('Calliper ', ''));
                         return numA - numB;
                       })}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                      <CartesianGrid strokeDasharray="2 2" stroke="#f3f4f6" />
                       <XAxis
                         dataKey="Posicao"
-                        tick={{ fontSize: 16, fontWeight: '600' }}
+                        tick={{ fontSize: 10, fontWeight: '600' }}
                       />
                       <YAxis
-                        tick={{ fontSize: 14 }}
-                        label={{ value: 'Quantidade', angle: -90, position: 'insideLeft' }}
+                        tick={{ fontSize: 10 }}
                       />
                       <Tooltip content={<CustomTooltipPosicoes />} />
-                      <Bar dataKey="Quantidade" radius={[6, 6, 0, 0]} barSize={50}>
+                      <Bar dataKey="Quantidade" radius={[4, 4, 0, 0]} barSize={30}>
                         <LabelList
                           dataKey="Quantidade"
                           position="top"
-                          style={{ fontSize: '16px', fontWeight: '700', fill: '#320f0fff' }}
+                          style={{ fontSize: '10px', fontWeight: '700', fill: '#320f0fff' }}
                         />
                         {[...safePosicaoCallipers]
                           .sort((a, b) => {
@@ -628,24 +676,24 @@ function App() {
             </TabsContent>
 
             {/* Aba 3: Evolução Temporal */}
-            <TabsContent value="evolucao" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="evolucao" className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
                 {/* Evolução Mensal */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <TrendingUp className="h-5 w-5 text-blue-600" />
+                  <CardHeader className="pb-2 sm:pb-4">
+                    <CardTitle className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+                      <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                       Evolução Mensal
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Qtd. de Substituições por Mês
+                    <CardDescription className="text-xs sm:text-sm text-gray-600">
+                      Substituições por Mês
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                    <ResponsiveContainer width="100%" height={250}>
                       <AreaChart
                         data={safeSubstituicoesPorMes}
-                        margin={{ top: 50, right: 30, left: 20, bottom: 40 }}
+                        margin={{ top: 20, right: 10, left: 0, bottom: 30 }}
                       >
                         <defs>
                           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -653,40 +701,28 @@ function App() {
                             <stop offset="95%" stopColor="#476badff" stopOpacity={0} />
                           </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                        <CartesianGrid strokeDasharray="2 2" stroke="#f3f4f6" />
                         <XAxis
                           dataKey="Mes_Ano"
-                          tick={{ fontSize: 12, angle: -45, textAnchor: "end" }}
+                          tick={{ fontSize: 10, angle: -45, textAnchor: "end" }}
                           interval={0}
-                          height={60}
+                          height={50}
                         />
-                        <YAxis tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 10 }} />
                         <Tooltip content={<CustomTooltip />} />
                         <Area
                           type="monotone"
                           dataKey="Total_Substituicoes"
                           stroke="#d7cdc1ff"
                           fill="url(#colorUv)"
-                          strokeWidth={3}
+                          strokeWidth={2}
                           dot={{
                             fill: '#3b82f6',
-                            strokeWidth: 2,
-                            r: 4
+                            strokeWidth: 1,
+                            r: 2
                           }}
-                          activeDot={{ r: 6, fill: '#1d4ed8' }}
-                        >
-                          <LabelList
-                            dataKey="Total_Substituicoes"
-                            position="top"
-                            offset={15}
-                            fill="#000000"
-                            style={{
-                              fontSize: '12px',
-                              fontWeight: 'bold',
-                              textShadow: '0px 0px 3px white'
-                            }}
-                          />
-                        </Area>
+                          activeDot={{ r: 4, fill: '#1d4ed8' }}
+                        />
                       </AreaChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -694,36 +730,34 @@ function App() {
 
                 {/* Tipo de Substituição */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <Wrench className="h-5 w-5 text-orange-600" />
+                  <CardHeader className="pb-2 sm:pb-4">
+                    <CardTitle className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+                      <Wrench className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
                       Tipo de Substituição
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Distribuição entre O-Ring e Pastilhas
-                      <br />
+                    <CardDescription className="text-xs sm:text-sm text-gray-600">
+                      O-Ring vs Pastilhas
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <BarChart data={safePercentualTipoSubstituicao} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                        <XAxis dataKey="Tipo" tick={{ fontSize: 14 }} />
-                        <YAxis tick={{ fontSize: 12 }} />
+                    <ResponsiveContainer width="100%" height={250}>
+                      <BarChart data={safePercentualTipoSubstituicao} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+                        <CartesianGrid strokeDasharray="2 2" stroke="#f3f4f6" />
+                        <XAxis dataKey="Tipo" tick={{ fontSize: 10 }} />
+                        <YAxis tick={{ fontSize: 10 }} />
                         <Tooltip formatter={(value, name) => {
                           if (name === 'Percentual') return [`${value}%`, 'Percentual'];
                           return [value, 'Quantidade'];
                         }} />
-                        <Bar dataKey="Quantidade" radius={[6, 6, 0, 0]}>
+                        <Bar dataKey="Quantidade" radius={[4, 4, 0, 0]}>
                           <LabelList
                             dataKey="Quantidade"
                             position="top"
                             formatter={(value, entry) => {
-                              // Calcular porcentagem baseada no total de 235 callipers
-                              const percentual = ((value / 235) * 100).toFixed(1);
+                              const percentual = ((value / 235) * 100).toFixed(0);
                               return `${value} (${percentual}%)`;
                             }}
-                            style={{ fontSize: '14px', fontWeight: '600', fill: '#374151' }}
+                            style={{ fontSize: '10px', fontWeight: '600', fill: '#374151' }}
                           />
                           {safePercentualTipoSubstituicao.map((entry, index) => (
                             <Cell
@@ -740,86 +774,81 @@ function App() {
             </TabsContent>
 
             {/* Aba 4: Relatórios */}
-            <TabsContent value="relatorios" className="space-y-6">
-              {/* Card Inferior - Máquinas com Problemas (largura dupla) */}
-              <div className="grid grid-cols-1 gap-6">
-                <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <AlertCircle className="h-5 w-5 text-red-600" />
-                      Relação de Máquinas Pendentes de Substituição.
-                    </CardTitle>
-                    <CardDescription className="text-gray-600">
-                      Lista de turbinas com callipers by-passados e Pendentes de substituição.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="overflow-x-auto rounded-lg border border-gray-200/60">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200/60">
-                            <th className="text-left p-4 font-semibold text-gray-700">Máquina (WTG)</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Parque</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Posição</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Status</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Data</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {safeMaquinasProblema.length > 0 ? (
-                            safeMaquinasProblema.map((maquina, index) => (
-                              <tr key={index} className="border-b border-gray-200/40 hover:bg-gray-50/50 transition-colors">
-                                <td className="p-4 text-gray-900 font-medium">{maquina.WTG || 'N/A'}</td>
-                                <td className="p-4 text-gray-700">{maquina.PARQUE || 'N/A'}</td>
-                                <td className="p-4 text-gray-700">{maquina.POSICAO_CALLIPER || 'N/A'}</td>
-                                <td className="p-4">
-                                  <Badge
-                                    variant="outline"
-                                    className={`font-medium ${maquina.STATUS?.toLowerCase().includes('by-pass')
-                                      ? 'bg-red-50 text-red-700 border-red-200'
-                                      : 'bg-yellow-50 text-yellow-700 border-yellow-200'
-                                      }`}
-                                  >
-                                    {maquina.STATUS || 'N/A'}
-                                  </Badge>
-                                </td>
-                                <td className="p-4 text-gray-700">
-                                  {maquina.ANO_SUBSTITUICAO && maquina.ANO_SUBSTITUICAO !== "Aguardando Programação" ?
-                                    new Date(maquina.ANO_SUBSTITUICAO).toLocaleDateString('pt-BR') :
-                                    maquina.ANO_SUBSTITUICAO || 'N/A'
-                                  }
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="5" className="p-8 text-center text-gray-500">
-                                <div className="flex flex-col items-center gap-2">
-                                  <CheckCircle className="h-8 w-8 text-green-400" />
-                                  <span className="font-medium">Nenhuma máquina com problemas encontrada</span>
-                                  <span className="text-sm">Todas as máquinas estão operacionais</span>
-                                </div>
+            <TabsContent value="relatorios" className="space-y-4 sm:space-y-6">
+              <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="text-base sm:text-xl font-bold text-gray-900 flex items-center gap-1 sm:gap-2">
+                    <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
+                    Máquinas Pendentes
+                  </CardTitle>
+                  <CardDescription className="text-xs sm:text-sm text-gray-600">
+                    Callipers by-passados pendentes de substituição
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto rounded-lg border border-gray-200/60">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200/60">
+                          <th className="text-left p-2 font-semibold text-gray-700">Máquina</th>
+                          <th className="text-left p-2 font-semibold text-gray-700">Parque</th>
+                          <th className="text-left p-2 font-semibold text-gray-700">Posição</th>
+                          <th className="text-left p-2 font-semibold text-gray-700">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {safeMaquinasProblema.length > 0 ? (
+                          safeMaquinasProblema.slice(0, 5).map((maquina, index) => (
+                            <tr key={index} className="border-b border-gray-200/40 hover:bg-gray-50/50 transition-colors">
+                              <td className="p-2 text-gray-900 font-medium">{maquina.WTG || 'N/A'}</td>
+                              <td className="p-2 text-gray-700">{maquina.PARQUE || 'N/A'}</td>
+                              <td className="p-2 text-gray-700">{maquina.POSICAO_CALLIPER || 'N/A'}</td>
+                              <td className="p-2">
+                                <Badge
+                                  variant="outline"
+                                  className={`text-xs font-medium ${maquina.STATUS?.toLowerCase().includes('by-pass')
+                                    ? 'bg-red-50 text-red-700 border-red-200'
+                                    : 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                                    }`}
+                                >
+                                  {maquina.STATUS ? (maquina.STATUS.includes('by-pass') ? 'By-Pass' : 'Pendente') : 'N/A'}
+                                </Badge>
                               </td>
                             </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="4" className="p-4 text-center text-gray-500">
+                              <div className="flex flex-col items-center gap-1">
+                                <CheckCircle className="h-6 w-6 text-green-400" />
+                                <span className="font-medium text-sm">Nenhuma máquina com problemas</span>
+                                <span className="text-xs">Todas operacionais</span>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                    {safeMaquinasProblema.length > 5 && (
+                      <div className="p-2 text-center text-xs text-gray-500 border-t">
+                        + {safeMaquinasProblema.length - 5} máquinas...
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
 
           {/* Rodapé */}
-          <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200/60">
-              <span className="text-sm text-gray-600">
-                Mostrando dados para: <span className="font-semibold text-gray-900">{anoFiltro === 'todos' ? 'Todos os anos' : anoFiltro}</span>
+          <div className="mt-4 sm:mt-6 lg:mt-8 text-center">
+            <div className="inline-flex items-center gap-1 sm:gap-2 bg-white/60 backdrop-blur-sm px-3 py-1 sm:px-4 sm:py-2 rounded-full border border-gray-200/60 text-xs sm:text-sm">
+              <span className="text-gray-600">
+                Dados: <span className="font-semibold text-gray-900">{anoFiltro === 'todos' ? 'Todos os anos' : anoFiltro}</span>
               </span>
               <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-              <span className="text-sm text-gray-600">
-                {getSafeNumber(dadosFiltrados.totalTurbinas)} turbinas • {getSafeNumber(dadosFiltrados.totalCallipers)} callipers
+              <span className="text-gray-600">
+                {getSafeNumber(dadosFiltrados.totalTurbinas)} turbinas
               </span>
             </div>
           </div>
