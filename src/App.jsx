@@ -20,7 +20,9 @@ import {
   Users,
   Zap,
   Grid3X3,
-  Printer
+  Printer,
+  Menu,
+  X
 } from 'lucide-react';
 import './App.css';
 
@@ -30,6 +32,25 @@ function App() {
   const [dadosFiltrados, setDadosFiltrados] = useState(null);
   const [abaAtiva, setAbaAtiva] = useState('analise');
   const [hoverValue, setHoverValue] = useState(null);
+  const [sidebarAberta, setSidebarAberta] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detectar tamanho da tela
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setSidebarAberta(true);
+      } else {
+        setSidebarAberta(false);
+      }
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     fetch('/dashboard_data.json')
@@ -66,14 +87,21 @@ function App() {
 
   const handleFiltrar = (ano) => {
     setAnoFiltro(ano);
+    if (isMobile) {
+      setSidebarAberta(false);
+    }
   };
 
   const handleExportar = () => {
-    window.print(); // Abre a impressão do documento
+    window.print();
   };
 
   const handleAtualizar = () => {
     window.location.reload();
+  };
+
+  const toggleSidebar = () => {
+    setSidebarAberta(!sidebarAberta);
   };
 
   // Componente MetricCard
@@ -139,7 +167,7 @@ function App() {
       </CardHeader>
 
       <CardContent>
-        <div className={`text-3xl font-bold mb-1 
+        <div className={`text-2xl lg:text-3xl font-bold mb-1 
         ${variant === 'alert' ? 'text-red-600' :
             variant === 'success' ? 'text-green-600' :
               variant === 'info' ? 'text-blue-600' :
@@ -272,9 +300,38 @@ function App() {
   const safeMaquinasProblema = getSafeArray(dadosFiltrados.maquinasProblema);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex flex-col md:flex-row">
+      {/* Botão Menu Mobile */}
+      {isMobile && (
+        <div className="fixed top-4 left-4 z-50">
+          <Button
+            onClick={toggleSidebar}
+            className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-lg"
+            size="sm"
+          >
+            {sidebarAberta ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </Button>
+        </div>
+      )}
+
+      {/* Overlay para mobile quando sidebar está aberta */}
+      {isMobile && sidebarAberta && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30"
+          onClick={() => setSidebarAberta(false)}
+        />
+      )}
+
       {/* Sidebar Vertical */}
-      <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-gray-200/60 flex flex-col p-6">
+      <div className={`
+        ${isMobile 
+          ? `fixed top-0 left-0 h-full z-40 transform transition-transform duration-300 ${
+              sidebarAberta ? 'translate-x-0' : '-translate-x-full'
+            }`
+          : 'relative'
+        }
+        w-64 bg-white/95 backdrop-blur-sm border-r border-gray-200/60 flex flex-col p-6
+      `}>
         {/* Logo/Título da Sidebar */}
         <div className="flex items-center gap-3 mb-8">
           <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-xl shadow-lg">
@@ -338,19 +395,19 @@ function App() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="flex-1 flex flex-col min-h-screen">
-        {/* Header Centralizado - REMOVIDO sticky top-0 */}
+      <div className="flex-1 flex flex-col min-h-screen w-full">
+        {/* Header Centralizado */}
         <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60">
-          <div className="container mx-auto px-6 py-8">
+          <div className="container mx-auto px-4 sm:px-6 py-6 md:py-8">
             <div className="flex flex-col items-center justify-center text-center gap-4">
               <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg">
-                <Zap className="h-10 w-10 text-white" />
+                <Zap className="h-8 w-8 md:h-10 md:w-10 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-br from-gray-900 to-blue-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-gray-900 to-blue-600 bg-clip-text text-transparent">
                   Monitoramento Callipers
                 </h1>
-                <p className="text-gray-600 text-lg mt-2 font-medium">
+                <p className="text-gray-600 text-sm sm:text-lg mt-2 font-medium">
                   Complexo Eólico Santo Inácio • 2024-2025
                 </p>
               </div>
@@ -359,9 +416,9 @@ function App() {
         </div>
 
         {/* Conteúdo do Dashboard */}
-        <div className="flex-1 container mx-auto px-6 py-8">
-          {/* Grid de Métricas */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div className="flex-1 container mx-auto px-4 sm:px-6 py-6 md:py-8">
+          {/* Grid de Métricas - Responsivo */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mb-6 md:mb-8">
             <MetricCard
               title="Total Turbinas"
               value={getSafeNumber(dadosFiltrados.totalTurbinas)}
@@ -401,48 +458,52 @@ function App() {
 
           {/* Abas do Dashboard */}
           <Tabs value={abaAtiva} onValueChange={setAbaAtiva} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-2xl p-1">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-6 md:mb-8 bg-white/60 backdrop-blur-sm border border-gray-200/60 rounded-xl md:rounded-2xl p-1 gap-1">
               <TabsTrigger
                 value="analise"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg md:rounded-xl transition-all text-xs md:text-sm py-2 md:py-3"
               >
-                <BarChart3 className="h-4 w-4" />
-                Análise Geral
+                <BarChart3 className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden sm:inline">Análise Geral</span>
+                <span className="sm:hidden">Geral</span>
               </TabsTrigger>
               <TabsTrigger
                 value="posicoes"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg md:rounded-xl transition-all text-xs md:text-sm py-2 md:py-3"
               >
-                <Grid3X3 className="h-4 w-4" />
-                Posições - Callipers
+                <Grid3X3 className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden sm:inline">Posições</span>
+                <span className="sm:hidden">Posições</span>
               </TabsTrigger>
               <TabsTrigger
                 value="evolucao"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg md:rounded-xl transition-all text-xs md:text-sm py-2 md:py-3"
               >
-                <TrendingUp className="h-4 w-4" />
-                Evolução Temporal
+                <TrendingUp className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden sm:inline">Evolução</span>
+                <span className="sm:hidden">Evolução</span>
               </TabsTrigger>
               <TabsTrigger
                 value="relatorios"
-                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-xl transition-all"
+                className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg md:rounded-xl transition-all text-xs md:text-sm py-2 md:py-3"
               >
-                <FileText className="h-4 w-4" />
-                Relatórios
+                <FileText className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden sm:inline">Relatórios</span>
+                <span className="sm:hidden">Relatórios</span>
               </TabsTrigger>
             </TabsList>
 
             {/* Aba 1: Análise Geral */}
-            <TabsContent value="analise" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="analise" className="space-y-4 md:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                 {/* Substituições por Parque */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <BarChart3 className="h-5 w-5 text-blue-600" />
+                    <CardTitle className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <BarChart3 className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
                       Substituições por Parque
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardDescription className="text-gray-600 text-sm md:text-base">
                       Quantidade de callipers substituídos por parque
                     </CardDescription>
                   </CardHeader>
@@ -452,10 +513,10 @@ function App() {
                         <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                         <XAxis
                           dataKey="PARQUE"
-                          tick={{ fontSize: 14 }}
-                          angle={-23}
+                          tick={{ fontSize: 12 }}
+                          angle={isMobile ? -45 : -23}
                           textAnchor="end"
-                          height={60}
+                          height={isMobile ? 80 : 60}
                         />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip content={<CustomTooltip />} />
@@ -467,7 +528,7 @@ function App() {
                           <LabelList
                             dataKey="Total_Substituicoes"
                             position="top"
-                            style={{ fontSize: '12px', fontWeight: '600', fill: '#374151' }}
+                            style={{ fontSize: isMobile ? '10px' : '12px', fontWeight: '600', fill: '#374151' }}
                           />
                         </Bar>
                         <defs>
@@ -484,11 +545,11 @@ function App() {
                 {/* Status dos Callipers */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <Users className="h-5 w-5 text-purple-600" />
+                    <CardTitle className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <Users className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
                       Status dos Callipers
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardDescription className="text-gray-600 text-sm md:text-base">
                       Distribuição por condição atual
                     </CardDescription>
                   </CardHeader>
@@ -506,8 +567,8 @@ function App() {
                               : Status;
                             return `${displayStatus}: (${(percent * 100).toFixed(1)}%)`;
                           }}
-                          outerRadius={100}
-                          innerRadius={60}
+                          outerRadius={isMobile ? 80 : 100}
+                          innerRadius={isMobile ? 40 : 60}
                           fill="#8884d8"
                           dataKey="Quantidade"
                           nameKey="Status"
@@ -545,15 +606,15 @@ function App() {
             </TabsContent>
 
             {/* Aba 2: Posições dos Callipers */}
-            <TabsContent value="posicoes" className="space-y-6">
+            <TabsContent value="posicoes" className="space-y-4 md:space-y-6">
               {/* Gráfico de Barras com Gradiente */}
               <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                    <Grid3X3 className="h-5 w-5 text-green-600" />
+                  <CardTitle className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                    <Grid3X3 className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
                     Distribuição - Posição x Turbina
                   </CardTitle>
-                  <CardDescription className="text-gray-600">
+                  <CardDescription className="text-gray-600 text-sm md:text-base">
                     Quantidade de callipers substituídos por posição (Total geral 47 Turbinas)
                   </CardDescription>
                 </CardHeader>
@@ -561,7 +622,6 @@ function App() {
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart
                       data={[...safePosicaoCallipers].sort((a, b) => {
-                        // Extrai o número do calliper para ordenação numérica
                         const numA = parseInt(a.Posicao.replace('Calliper ', ''));
                         const numB = parseInt(b.Posicao.replace('Calliper ', ''));
                         return numA - numB;
@@ -571,18 +631,22 @@ function App() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                       <XAxis
                         dataKey="Posicao"
-                        tick={{ fontSize: 16, fontWeight: '600' }}
+                        tick={{ fontSize: isMobile ? 12 : 16, fontWeight: '600' }}
                       />
                       <YAxis
-                        tick={{ fontSize: 14 }}
+                        tick={{ fontSize: isMobile ? 12 : 14 }}
                         label={{ value: 'Quantidade', angle: -90, position: 'insideLeft' }}
                       />
                       <Tooltip content={<CustomTooltipPosicoes />} />
-                      <Bar dataKey="Quantidade" radius={[6, 6, 0, 0]} barSize={50}>
+                      <Bar dataKey="Quantidade" radius={[6, 6, 0, 0]} barSize={isMobile ? 30 : 50}>
                         <LabelList
                           dataKey="Quantidade"
                           position="top"
-                          style={{ fontSize: '16px', fontWeight: '700', fill: '#320f0fff' }}
+                          style={{ 
+                            fontSize: isMobile ? '12px' : '16px', 
+                            fontWeight: '700', 
+                            fill: '#320f0fff' 
+                          }}
                         />
                         {[...safePosicaoCallipers]
                           .sort((a, b) => {
@@ -606,16 +670,16 @@ function App() {
             </TabsContent>
 
             {/* Aba 3: Evolução Temporal */}
-            <TabsContent value="evolucao" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="evolucao" className="space-y-4 md:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                 {/* Evolução Mensal */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <TrendingUp className="h-5 w-5 text-blue-600" />
+                    <CardTitle className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
                       Evolução Mensal
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardDescription className="text-gray-600 text-sm md:text-base">
                       Qtd. de Substituições por Mês
                     </CardDescription>
                   </CardHeader>
@@ -673,20 +737,19 @@ function App() {
                 {/* Tipo de Substituição */}
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <Wrench className="h-5 w-5 text-orange-600" />
+                    <CardTitle className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <Wrench className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
                       Tipo de Substituição
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardDescription className="text-gray-600 text-sm md:text-base">
                       Distribuição entre O-Ring e Pastilhas
-                      <br />
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={safePercentualTipoSubstituicao} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                        <XAxis dataKey="Tipo" tick={{ fontSize: 14 }} />
+                        <XAxis dataKey="Tipo" tick={{ fontSize: isMobile ? 12 : 14 }} />
                         <YAxis tick={{ fontSize: 12 }} />
                         <Tooltip formatter={(value, name) => {
                           if (name === 'Percentual') return [`${value}%`, 'Percentual'];
@@ -697,11 +760,14 @@ function App() {
                             dataKey="Quantidade"
                             position="top"
                             formatter={(value, entry) => {
-                              // Calcular porcentagem baseada no total de 235 callipers
                               const percentual = ((value / 235) * 100).toFixed(1);
                               return `${value} (${percentual}%)`;
                             }}
-                            style={{ fontSize: '14px', fontWeight: '600', fill: '#374151' }}
+                            style={{ 
+                              fontSize: isMobile ? '12px' : '14px', 
+                              fontWeight: '600', 
+                              fill: '#374151' 
+                            }}
                           />
                           {safePercentualTipoSubstituicao.map((entry, index) => (
                             <Cell
@@ -718,16 +784,16 @@ function App() {
             </TabsContent>
 
             {/* Aba 4: Relatórios */}
-            <TabsContent value="relatorios" className="space-y-6">
-              {/* Card Inferior - Máquinas com Problemas (largura dupla) */}
-              <div className="grid grid-cols-1 gap-6">
+            <TabsContent value="relatorios" className="space-y-4 md:space-y-6">
+              {/* Card Inferior - Máquinas com Problemas */}
+              <div className="grid grid-cols-1 gap-4 md:gap-6">
                 <Card className="bg-white/80 backdrop-blur-sm border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                      <AlertCircle className="h-5 w-5 text-red-600" />
-                      Relação de Máquinas Pendentes de Substituição.
+                    <CardTitle className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+                      <AlertCircle className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
+                      Relação de Máquinas Pendentes de Substituição
                     </CardTitle>
-                    <CardDescription className="text-gray-600">
+                    <CardDescription className="text-gray-600 text-sm md:text-base">
                       Lista de turbinas com callipers by-passados e Pendentes de substituição.
                     </CardDescription>
                   </CardHeader>
@@ -736,24 +802,24 @@ function App() {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-gradient-to-r from-gray-50 to-gray-100/50 border-b border-gray-200/60">
-                            <th className="text-left p-4 font-semibold text-gray-700">Máquina (WTG)</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Parque</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Posição</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Status</th>
-                            <th className="text-left p-4 font-semibold text-gray-700">Data</th>
+                            <th className="text-left p-3 md:p-4 font-semibold text-gray-700">Máquina (WTG)</th>
+                            <th className="text-left p-3 md:p-4 font-semibold text-gray-700">Parque</th>
+                            <th className="text-left p-3 md:p-4 font-semibold text-gray-700">Posição</th>
+                            <th className="text-left p-3 md:p-4 font-semibold text-gray-700">Status</th>
+                            <th className="text-left p-3 md:p-4 font-semibold text-gray-700">Data</th>
                           </tr>
                         </thead>
                         <tbody>
                           {safeMaquinasProblema.length > 0 ? (
                             safeMaquinasProblema.map((maquina, index) => (
                               <tr key={index} className="border-b border-gray-200/40 hover:bg-gray-50/50 transition-colors">
-                                <td className="p-4 text-gray-900 font-medium">{maquina.WTG || 'N/A'}</td>
-                                <td className="p-4 text-gray-700">{maquina.PARQUE || 'N/A'}</td>
-                                <td className="p-4 text-gray-700">{maquina.POSICAO_CALLIPER || 'N/A'}</td>
-                                <td className="p-4">
+                                <td className="p-3 md:p-4 text-gray-900 font-medium">{maquina.WTG || 'N/A'}</td>
+                                <td className="p-3 md:p-4 text-gray-700">{maquina.PARQUE || 'N/A'}</td>
+                                <td className="p-3 md:p-4 text-gray-700">{maquina.POSICAO_CALLIPER || 'N/A'}</td>
+                                <td className="p-3 md:p-4">
                                   <Badge
                                     variant="outline"
-                                    className={`font-medium ${maquina.STATUS?.toLowerCase().includes('by-pass')
+                                    className={`font-medium text-xs ${maquina.STATUS?.toLowerCase().includes('by-pass')
                                       ? 'bg-red-50 text-red-700 border-red-200'
                                       : 'bg-yellow-50 text-yellow-700 border-yellow-200'
                                       }`}
@@ -761,7 +827,7 @@ function App() {
                                     {maquina.STATUS || 'N/A'}
                                   </Badge>
                                 </td>
-                                <td className="p-4 text-gray-700">
+                                <td className="p-3 md:p-4 text-gray-700">
                                   {maquina.ANO_SUBSTITUICAO && maquina.ANO_SUBSTITUICAO !== "Aguardando Programação" ?
                                     new Date(maquina.ANO_SUBSTITUICAO).toLocaleDateString('pt-BR') :
                                     maquina.ANO_SUBSTITUICAO || 'N/A'
@@ -771,11 +837,11 @@ function App() {
                             ))
                           ) : (
                             <tr>
-                              <td colSpan="5" className="p-8 text-center text-gray-500">
+                              <td colSpan="5" className="p-6 md:p-8 text-center text-gray-500">
                                 <div className="flex flex-col items-center gap-2">
-                                  <CheckCircle className="h-8 w-8 text-green-400" />
-                                  <span className="font-medium">Nenhuma máquina com problemas encontrada</span>
-                                  <span className="text-sm">Todas as máquinas estão operacionais</span>
+                                  <CheckCircle className="h-6 w-6 md:h-8 md:w-8 text-green-400" />
+                                  <span className="font-medium text-sm md:text-base">Nenhuma máquina com problemas encontrada</span>
+                                  <span className="text-xs md:text-sm">Todas as máquinas estão operacionais</span>
                                 </div>
                               </td>
                             </tr>
@@ -790,12 +856,12 @@ function App() {
           </Tabs>
 
           {/* Rodapé */}
-          <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200/60">
+          <div className="mt-6 md:mt-8 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200/60">
               <span className="text-sm text-gray-600">
                 Mostrando dados para: <span className="font-semibold text-gray-900">{anoFiltro === 'todos' ? 'Todos os anos' : anoFiltro}</span>
               </span>
-              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+              <span className="hidden sm:block w-1 h-1 bg-gray-400 rounded-full"></span>
               <span className="text-sm text-gray-600">
                 {getSafeNumber(dadosFiltrados.totalTurbinas)} turbinas • {getSafeNumber(dadosFiltrados.totalCallipers)} callipers
               </span>
